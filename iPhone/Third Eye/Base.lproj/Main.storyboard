@@ -226,7 +226,7 @@
                             <outlet property="delegate" destination="pGg-6v-bdr" id="Y6K-Cp-Qkv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="BLE Controller" id="tQt-TN-PWz">
+                    <navigationItem key="navigationItem" title="Third Eye" id="tQt-TN-PWz">
                         <barButtonItem key="rightBarButtonItem" systemItem="stop" id="pbg-jv-YJx">
                             <connections>
                                 <action selector="btnStopClicked:" destination="pGg-6v-bdr" id="azt-lt-Wf5"/>
