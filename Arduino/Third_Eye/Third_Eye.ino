@@ -190,7 +190,7 @@ void reportPinDigitalData(byte pin)
 {
   byte state = digitalRead(pin);
   byte mode = pin_mode[pin];
-  byte buf[] = {'G', pin, mode, state};         
+  byte buf[] = {'G', pin, mode, state};
   ble_write_string(buf, 4);
 }
 
@@ -379,7 +379,7 @@ void loop()
         }
         break;
         
-      case 'Z':
+      case 'Z': // custom data
         {
           byte len = ble_read();
           byte buf[len];
