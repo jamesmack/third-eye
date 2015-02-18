@@ -147,13 +147,13 @@ JMControlViewController *cv;
                     if (p.name != nil) {
                         [self.mDevicesName insertObject:p.name atIndex:i];
                     } else {
-                        [self.mDevicesName insertObject:@"RedBear Device" atIndex:i];
+                        [self.mDevicesName insertObject:@"BLE Device" atIndex:i];
                     }
                 }
                 else
                 {
                     [self.mDevices insertObject:@"NULL" atIndex:i];
-                    [self.mDevicesName insertObject:@"RedBear Device" atIndex:i];
+                    [self.mDevicesName insertObject:@"BLE Device" atIndex:i];
                 }
             }
             showAlert = NO;
@@ -163,7 +163,7 @@ JMControlViewController *cv;
   
     if (showAlert == YES) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:@"No BLE Device(s) found."
+                                                        message:@"No devices found."
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
