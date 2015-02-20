@@ -19,9 +19,6 @@ int average(QueueList<int> & q, int avg_power) {
 void readSensor() {
   reading = pulseIn(sensor_pin, HIGH);
   distance = reading/147;
-  Serial.print(distance);
-  Serial.println(" ");
-  
   sensor_readings.push(distance);
   if(sensor_readings.count() > avg_count) {
         int avg = average(sensor_readings, avg_power);
