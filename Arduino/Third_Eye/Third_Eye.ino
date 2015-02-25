@@ -1,5 +1,7 @@
 #include <Servo.h>
 #include <SPI.h>
+#include <SimpleTimer.h>
+#include <QueueList.h>
 #include <boards.h>
 #include <RBL_nRF8001.h>
 #include "Boards.h"
@@ -15,18 +17,32 @@
 #define PIN_CAPABILITY_SERVO     0x08
 #define PIN_CAPABILITY_I2C       0x10
 
-// pin modes
+// Pin modes
 //#define INPUT                 0x00 // defined in wiring.h
 //#define OUTPUT                0x01 // defined in wiring.h
 #define ANALOG                  0x02 // analog pin in analogInput mode
 #define PWM                     0x03 // digital pin in PWM output mode
 #define SERVO                   0x04 // digital pin in Servo output mode
 
+// Ultrasonic sensor consts
+const int DIST_VCLOSE = 39; // ceil(1 m * 39.37 in)
+const int DIST_CLOSE = 79; // ceil(2 m * 39.37 in)
+const int SENSOR_PIN = 9;
+
+// Averaging defines
+const int AVG_POWER = 2;     // 1 for 2 readings, 2 for 4 readings, 3 for 8, etc.
+const int AVG_COUNT = pow(2, AVG_POWER);
+
+// Global variables
+SimpleTimer timer;
+long sensor_distance, sensor_raw;
+QueueList <int> sensor_readings;
+
+// Pin arrays
 byte pin_mode[TOTAL_PINS];
 byte pin_state[TOTAL_PINS];
 byte pin_pwm[TOTAL_PINS];
 byte pin_servo[TOTAL_PINS];
-
 Servo servos[MAX_SERVOS];
 
 void setup()
@@ -49,9 +65,40 @@ void setup()
   // Set name here (max 10 chars)
   ble_set_name("Third Eye");
   
+  // Set up sensor
+  pinMode(SENSOR_PIN, INPUT);
+  timer.setInterval(75, readSensor);
+  
   // Init. and start BLE library.
   ble_begin();
 }
+
+//// Ultrasonic code
+
+int average(QueueList<int> & q) {
+    long sum = 0;
+    for (int i = 0; i < AVG_COUNT; i++) {
+        sum += q.pop();
+    }
+    return (sum >> AVG_POWER);
+}
+
+void readSensor() {
+  sensor_raw = pulseIn(SENSOR_PIN, HIGH);
+  sensor_distance = sensor_raw/147;
+  sensor_readings.push(sensor_distance);
+  if(sensor_readings.count() > AVG_COUNT) {
+        int avg = average(sensor_readings);
+        if (avg < DIST_VCLOSE) {
+          Serial.println("Very close");
+        }
+        else if (avg < DIST_CLOSE && avg > DIST_VCLOSE) {
+         Serial.println("Close"); 
+        }
+  }
+}
+
+//// End ultrasonic code
 
 static byte buf_len = 0;
 
@@ -219,6 +266,9 @@ void loop()
     cmd = ble_read();
     Serial.write(cmd);
     
+    // Do a sensor check
+    timer.run();
+    
     // Parse data here
     switch (cmd)
     {
@@ -371,7 +421,7 @@ void loop()
         }
        
         break;
-          
+
       case 'P': // query pin capability
         {
           byte pin = ble_read();
@@ -402,6 +452,9 @@ void loop()
     
     return; // only do this task in this loop
   }
+
+  // Do a sensor check
+  timer.run();
 
   // process text data
   if (Serial.available())
@@ -444,7 +497,7 @@ void loop()
     
     return;  
   }
-    
+  
   ble_do_events();
   buf_len = 0;
 }
