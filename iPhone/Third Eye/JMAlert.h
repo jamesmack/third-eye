@@ -10,10 +10,10 @@
 
 @interface JMAlert : NSObject
 
-+ (void)soundLevelAlert: (NSInteger *) level
++ (void)soundLevelAlert: (NSInteger) level
               doEnable: (BOOL) enable;
 
-+ (void)vibLevelAlert: (NSInteger *) level
++ (void)vibLevelAlert: (NSInteger) level
             doEnable: (BOOL) enable;
 
 @end
