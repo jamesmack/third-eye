@@ -11,12 +11,12 @@
 
 @implementation JMAlert
 
-+ (void)soundLevelAlert: (NSInteger *) level
++ (void)soundLevelAlert: (NSInteger) level
               doEnable: (BOOL) enable {
     AudioServicesPlaySystemSound (1005);
 }
 
-+ (void)vibLevelAlert: (NSInteger *) level
++ (void)vibLevelAlert: (NSInteger) level
             doEnable: (BOOL) enable {
     AudioServicesPlaySystemSound (4095);
 }

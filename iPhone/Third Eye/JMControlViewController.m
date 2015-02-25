@@ -43,11 +43,8 @@ uint8_t init_done = 0;
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 
-    UIImage *temp = [[UIImage imageNamed:@"title.png"] imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithImage:temp style:UIBarButtonItemStyleBordered target:self action:@selector(action)];
-    self.navigationItem.leftBarButtonItem = barButtonItem;
-    self.navigationItem.leftBarButtonItem.enabled = NO;
-    
+    self.navigationItem.hidesBackButton = YES;
+
     protocol = [[RBLProtocol alloc] init];
     protocol.delegate = self;
     protocol.ble = ble;
@@ -199,8 +196,9 @@ NSTimer *syncTimer;
 -(void) protocolDidReceiveCustomData:(uint8_t *)data length:(uint8_t)length
 {
     if (length == 1 && (data[0] == 1 || data[0] == 2)) { // Level can be either 1 or 2 (sent from Arduino)
-//        [JMAlert soundLevelAlert:data[0] doEnable:true];
-        [JMAlert vibLevelAlert:data[0] doEnable:true];
+        NSInteger level = data[0];
+        [JMAlert soundLevelAlert:level doEnable:true];
+        [JMAlert vibLevelAlert:level doEnable:true];
     }
 }
 
