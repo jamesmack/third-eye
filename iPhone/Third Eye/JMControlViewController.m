@@ -13,6 +13,7 @@
 
 #import "JMControlViewController.h"
 #import "CellPin.h"
+#import "JMAlert.h"
 
 uint8_t total_pin_count  = 0;
 uint8_t pin_mode[128]    = {0};
@@ -197,9 +198,10 @@ NSTimer *syncTimer;
 
 -(void) protocolDidReceiveCustomData:(uint8_t *)data length:(uint8_t)length
 {
-    for (int i = 0; i < length; i++)
-        printf("%x", data[i]);
-    printf("\n");
+    if (length == 1 && (data[0] == 1 || data[0] == 2)) { // Level can be either 1 or 2 (sent from Arduino)
+//        [JMAlert soundLevelAlert:data[0] doEnable:true];
+        [JMAlert vibLevelAlert:data[0] doEnable:true];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A6300401A9D74950013D894 /* JMAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A63003F1A9D74950013D894 /* JMAlert.m */; };
+		1A6300421A9D85390013D894 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A6300411A9D85390013D894 /* AudioToolbox.framework */; };
 		1AB8E7B41A845E1500D33FF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AB8E79E1A845E1500D33FF2 /* Main.storyboard */; };
 		1AB8E7B51A845E1500D33FF2 /* CellPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7A11A845E1500D33FF2 /* CellPin.m */; };
 		1AB8E7B61A845E1500D33FF2 /* CellUuid.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7A31A845E1500D33FF2 /* CellUuid.m */; };
@@ -29,6 +31,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A63003E1A9D74950013D894 /* JMAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMAlert.h; sourceTree = "<group>"; };
+		1A63003F1A9D74950013D894 /* JMAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMAlert.m; sourceTree = "<group>"; };
+		1A6300411A9D85390013D894 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		1AB8E79F1A845E1500D33FF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1AB8E7A01A845E1500D33FF2 /* CellPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellPin.h; sourceTree = "<group>"; };
 		1AB8E7A11A845E1500D33FF2 /* CellPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellPin.m; sourceTree = "<group>"; };
@@ -67,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A6300421A9D85390013D894 /* AudioToolbox.framework in Frameworks */,
 				29BC634318212D7E00E16AFF /* CoreBluetooth.framework in Frameworks */,
 				C27E829E1820DB490032D858 /* CoreGraphics.framework in Frameworks */,
 				C27E82A01820DB490032D858 /* UIKit.framework in Frameworks */,
@@ -107,6 +113,8 @@
 				1AB8E7B21A845E1500D33FF2 /* Third Eye-Prefix.pch */,
 				1AB8E7B31A845E1500D33FF2 /* title.png */,
 				1AB8E7B01A845E1500D33FF2 /* RedBearLab.jpg */,
+				1A63003E1A9D74950013D894 /* JMAlert.h */,
+				1A63003F1A9D74950013D894 /* JMAlert.m */,
 			);
 			path = "Third Eye";
 			sourceTree = SOURCE_ROOT;
@@ -153,6 +161,7 @@
 		C27E829A1820DB490032D858 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A6300411A9D85390013D894 /* AudioToolbox.framework */,
 				29BC634218212D7E00E16AFF /* CoreBluetooth.framework */,
 				C27E829B1820DB490032D858 /* Foundation.framework */,
 				C27E829D1820DB490032D858 /* CoreGraphics.framework */,
@@ -244,6 +253,7 @@
 				1AB8E7B61A845E1500D33FF2 /* CellUuid.m in Sources */,
 				29BC634818212DCE00E16AFF /* RBLProtocol.m in Sources */,
 				1AB8E7B51A845E1500D33FF2 /* CellPin.m in Sources */,
+				1A6300401A9D74950013D894 /* JMAlert.m in Sources */,
 				1AB8E7BA1A845E1500D33FF2 /* JMControlViewController.m in Sources */,
 				1AB8E7BC1A845E1500D33FF2 /* JMMainViewController.m in Sources */,
 				1AB8E7B91A845E1500D33FF2 /* JMAppDelegate.m in Sources */,
