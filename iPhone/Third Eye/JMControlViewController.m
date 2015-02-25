@@ -198,7 +198,8 @@ NSTimer *syncTimer;
 -(void) protocolDidReceiveCustomData:(uint8_t *)data length:(uint8_t)length
 {
     for (int i = 0; i < length; i++)
-        printf("%x\n", data[i]);
+        printf("%x", data[i]);
+    printf("\n");
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
