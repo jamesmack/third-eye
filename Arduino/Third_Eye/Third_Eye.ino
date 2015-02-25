@@ -83,17 +83,37 @@ int average(QueueList<int> & q) {
     return (sum >> AVG_POWER);
 }
 
+void sendDistanceData(int level) {
+  const int str_len = 1;
+  uint8_t str[str_len+1];  // String plus null  
+  
+  if (level == 1) {
+    str[0] = 1;
+  }
+  else if (level == 2) {
+    str[0] = 2;
+  }
+  else {
+    return;
+  }
+  
+  sendCustomData(str, str_len); 
+}
+
 void readSensor() {
+  if (!ble_connected()) return;
   sensor_raw = pulseIn(SENSOR_PIN, HIGH);
   sensor_distance = sensor_raw/147;
   sensor_readings.push(sensor_distance);
   if(sensor_readings.count() > AVG_COUNT) {
         int avg = average(sensor_readings);
         if (avg < DIST_VCLOSE) {
-          Serial.println("Very close");
+          Serial.println("Very close (1)");
+          sendDistanceData(1);
         }
         else if (avg < DIST_CLOSE && avg > DIST_VCLOSE) {
-         Serial.println("Close"); 
+          Serial.println("Close (2)"); 
+          sendDistanceData(2);
         }
   }
 }
@@ -403,23 +423,19 @@ void loop()
         break;
       
       case 'A': // query all pin status
-        for (int pin = 0; pin < TOTAL_PINS; pin++)
         {
-          reportPinCapability(pin);
-          if ( (pin_mode[pin] == INPUT) || (pin_mode[pin] == OUTPUT) )
-            reportPinDigitalData(pin);
-          else if (pin_mode[pin] == PWM)
-            reportPinPWMData(pin);
-          else if (pin_mode[pin] == SERVO)
-            reportPinServoData(pin);  
+          for (int pin = 0; pin < TOTAL_PINS; pin++)
+          {
+            reportPinCapability(pin);
+            if ( (pin_mode[pin] == INPUT) || (pin_mode[pin] == OUTPUT) )
+              reportPinDigitalData(pin);
+            else if (pin_mode[pin] == PWM)
+              reportPinPWMData(pin);
+            else if (pin_mode[pin] == SERVO)
+              reportPinServoData(pin);  
+          }
+          queryDone = true; 
         }
-        
-        queryDone = true; 
-        {
-          uint8_t str[] = "ABC";
-          sendCustomData(str, 3);
-        }
-       
         break;
 
       case 'P': // query pin capability
@@ -453,9 +469,6 @@ void loop()
     return; // only do this task in this loop
   }
 
-  // Do a sensor check
-  timer.run();
-
   // process text data
   if (Serial.available())
   {
@@ -479,24 +492,27 @@ void loop()
   if (!ble_connected())
     queryDone = false; // reset query state
     
-  if (queryDone) // only report data after the query state
-  { 
-    byte input_data_pending = reportDigitalInput();  
-    if (input_data_pending)
-    {
-      ble_do_events();
-      buf_len = 0;
-      
-      return; // only do this task in this loop
-    }
+//  if (queryDone) // only report data after the query state
+//  { 
+//    byte input_data_pending = reportDigitalInput();  
+//    if (input_data_pending)
+//    {
+//      ble_do_events();
+//      buf_len = 0;
+//      
+//      return; // only do this task in this loop
+//    }
+//  
+//    reportPinAnalogData();
+//    
+//    ble_do_events();
+//    buf_len = 0;
+//    
+//    return;  
+//  }
   
-    reportPinAnalogData();
-    
-    ble_do_events();
-    buf_len = 0;
-    
-    return;  
-  }
+  // Do a sensor check
+  timer.run();
   
   ble_do_events();
   buf_len = 0;

@@ -195,12 +195,10 @@ NSTimer *syncTimer;
     [tv reloadData];
 }
 
--(void) protocolDidReceiveCustomData:(UInt8 *)data length:(UInt8)length
+-(void) protocolDidReceiveCustomData:(uint8_t *)data length:(uint8_t)length
 {
-    // Handle your customer data here.
-    for (int i = 0; i< length; i++)
-        printf("0x%2X ", data[i]);
-    printf("\n");
+    for (int i = 0; i < length; i++)
+        printf("%x\n", data[i]);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
