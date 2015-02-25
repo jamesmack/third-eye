@@ -58,7 +58,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Third Eye" id="Knd-al-A6J"/>
+                    <navigationItem key="navigationItem" title="Third Eye" id="Knd-al-A6J">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="BHn-wh-Vzj"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityScanning" destination="Uqr-97-Tq1" id="ati-hp-00m"/>
                         <outlet property="btnConnect" destination="hgm-ba-V8C" id="nOW-WD-bCH"/>
@@ -71,7 +73,7 @@
             </objects>
             <point key="canvasLocation" x="310" y="89"/>
         </scene>
-        <!--BLE Device-->
+        <!--BLE Devices-->
         <scene sceneID="Sc7-dK-PPw">
             <objects>
                 <tableViewController id="8do-TZ-cWd" customClass="JMDetailViewController" sceneMemberID="viewController">
@@ -119,7 +121,9 @@
                             <outlet property="delegate" destination="8do-TZ-cWd" id="atR-mS-XtT"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="BLE Device" id="PGw-9c-B2i"/>
+                    <navigationItem key="navigationItem" title="BLE Devices" id="PGw-9c-B2i">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="75n-we-GQf"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eKQ-Hr-iV2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
