@@ -1,34 +1,45 @@
-/*
-Test code for the Arduino Uno
-Written by Tom Bonar for testing
-Sensors being used for this code are the MB10X0 from MaxBotix
-All PW inputs are coded in this for simplicity.
-Remove the comments to use the additional sensor inputs
-*/
-const int pwPin1 = 9;
-long pulse1, sensor1;
+#include <SimpleTimer.h>
+#include <QueueList.h>
+
+const int dist_vclose = 39; // ceil(1 m * 39.37 in)
+const int dist_close = 79; // ceil(2 m * 39.37 in)
+const int sensor_pin = 9;
+const int avg_power = 2;     // 1 for 2 readings, 2 for 4 readings, 3 for 8, etc.
+const int avg_count = pow(2, avg_power);
+
+SimpleTimer timer;
+long distance, reading;
+QueueList <int> sensor_readings;
+
+int average(QueueList<int> & q, int avg_power) {
+    long sum = 0;
+    for (int i = 0; i < avg_count; i++) {
+        sum += q.pop();
+    }
+    return (sum >> avg_power);
+}
+
+void readSensor() {
+  reading = pulseIn(sensor_pin, HIGH);
+  distance = reading/147;
+  sensor_readings.push(distance);
+  if(sensor_readings.count() > avg_count) {
+        int avg = average(sensor_readings, avg_power);
+        if (avg < dist_vclose) {
+          Serial.println("Very close");
+        }
+        else if (avg < dist_close && avg > dist_vclose) {
+         Serial.println("Close"); 
+        }
+  }
+}
 
 void setup () {
   Serial.begin(9600);
-  pinMode(pwPin1, INPUT);
+  pinMode(sensor_pin, INPUT);
+  timer.setInterval(75, readSensor);
 }
 
-void read_sensor(){
-  pulse1 = pulseIn(pwPin1, HIGH);
-  sensor1 = pulse1/147;
+void loop() {
+    timer.run();
 }
-
-//This section of code is if you want to print the range readings to your computer too remove this from the code put /* before the code section and */ after the code
-void printall(){         
-  Serial.print("S1");
-  Serial.print(" ");
-  Serial.print(sensor1);
-  Serial.println(" ");
-}
-
-void loop () {
-  read_sensor();
-  printall();
-  delay(50); // This delay time changes by 50 for every sensor in the chain.  For 5 sensors this will be 250
-}
-
