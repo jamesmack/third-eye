@@ -52,7 +52,7 @@
                                     <action selector="lastClick:" destination="19Q-h3-wvr" eventType="touchUpInside" id="wtG-hq-6Bx"/>
                                 </connections>
                             </button>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="RedBearLab.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="9kp-s6-KjS">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="ThirdEye.png" translatesAutoresizingMaskIntoConstraints="NO" id="9kp-s6-KjS">
                                 <rect key="frame" x="0.0" y="68" width="320" height="288"/>
                             </imageView>
                         </subviews>
@@ -249,7 +249,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="RedBearLab.jpg" width="240" height="240"/>
+        <image name="ThirdEye.png" width="250" height="250"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
