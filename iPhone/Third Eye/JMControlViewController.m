@@ -118,10 +118,8 @@ NSTimer *syncTimer;
     // get response, so stop timer
     [syncTimer invalidate];
     
-    uint8_t buf[] = {'B', 'L', 'E'};
-    [protocol sendCustomData:buf Length:3];
-    
-    [protocol queryTotalPinCount];
+//    [protocol queryTotalPinCount]; // Commenting this out prevents initial population
+                                     // of pin states and a lot of communication
 }
 
 -(void) protocolDidReceiveTotalPinCount:(UInt8) count
