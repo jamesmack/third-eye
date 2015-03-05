@@ -199,6 +199,7 @@ NSTimer *syncTimer;
         NSInteger level = data[0];
         [JMAlert soundLevelAlert:level doEnable:true];
         [JMAlert vibLevelAlert:level doEnable:true];
+        NSLog(@"Recieved %ldm alert from hardware", (long)level);
     }
 }
 
