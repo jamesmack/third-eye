@@ -48,6 +48,9 @@ void readSensor() {
         }
 //        sendDistanceData(2);
       }
+      else {
+        getMovingDirection(); 
+      }
       read_cnt = 0;
     }
     else read_cnt++;
@@ -56,4 +59,10 @@ void readSensor() {
 
 void loop() {
     timer.run();
+}
+
+void setup() {
+ Serial.begin(9600); 
+ pinMode(SENSOR_PIN, INPUT);
+ timer.setInterval(75, readSensor);
 }
