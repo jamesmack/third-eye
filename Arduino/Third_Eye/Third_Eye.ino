@@ -1,7 +1,7 @@
 #include <Servo.h>
 #include <SPI.h>
 #include <SimpleTimer.h>
-#include <QueueList.h>
+#include <Trends.h>
 #include <boards.h>
 #include <RBL_nRF8001.h>
 #include "Boards.h"
@@ -25,18 +25,15 @@
 #define SERVO                   0x04 // digital pin in Servo output mode
 
 // Ultrasonic sensor consts
-const int DIST_VCLOSE = 39; // ceil(1 m * 39.37 in)
-const int DIST_CLOSE = 79; // ceil(2 m * 39.37 in)
+const int DIST_VCLOSE = 59; // ceil(1.5 m * 39.37 in)
+const int DIST_CLOSE = 98; // ceil(2.5 m * 39.37 in)
 const int SENSOR_PIN = 9;
-
-// Averaging defines
-const int AVG_POWER = 2;     // 1 for 2 readings, 2 for 4 readings, 3 for 8, etc.
-const int AVG_COUNT = pow(2, AVG_POWER);
 
 // Global variables
 SimpleTimer timer;
-long sensor_distance, sensor_raw;
-QueueList <int> sensor_readings;
+int sensor_distance, sensor_raw;
+int read_cnt = 0;
+Trends distance_hist(5, 5);
 
 // Pin arrays
 byte pin_mode[TOTAL_PINS];
@@ -75,14 +72,6 @@ void setup()
 
 //// Ultrasonic code
 
-int average(QueueList<int> & q) {
-    long sum = 0;
-    for (int i = 0; i < AVG_COUNT; i++) {
-        sum += q.pop();
-    }
-    return (sum >> AVG_POWER);
-}
-
 void sendDistanceData(int level) {
   const int str_len = 1;
   uint8_t str[str_len+1];  // String plus null  
@@ -100,21 +89,44 @@ void sendDistanceData(int level) {
   sendCustomData(str, str_len); 
 }
 
+int getMovingDirection() {
+  int direct;  // 0 when not moving, 1 when moving away, -1 when moving towards
+  float slope = distance_hist.getSlopeOfAverage();
+
+  if (slope < 0.3 && slope > -0.3) direct = 0;
+  else if (slope >= 0.3) direct = 1;
+  else direct = -1;
+  
+  Serial.println(slope);
+  
+  return direct;
+}
+
 void readSensor() {
   if (!ble_connected()) return;
   sensor_raw = pulseIn(SENSOR_PIN, HIGH);
   sensor_distance = sensor_raw/147;
-  sensor_readings.push(sensor_distance);
-  if(sensor_readings.count() > AVG_COUNT) {
-        int avg = average(sensor_readings);
-        if (avg < DIST_VCLOSE) {
+  if (sensor_distance != 246) {
+    distance_hist.addValue(sensor_distance);
+    
+    if (read_cnt == 5) {
+      
+      int avg = distance_hist.getAverage();
+      
+      if (avg < DIST_VCLOSE) {
           Serial.println("Very close (1)");
           sendDistanceData(1);
+      }
+      else if (avg < DIST_CLOSE && avg > DIST_VCLOSE) {
+        Serial.println("Close (2)"); 
+        if (getMovingDirection() == -1) {
+          Serial.println("Close and moving closer"); 
         }
-        else if (avg < DIST_CLOSE && avg > DIST_VCLOSE) {
-          Serial.println("Close (2)"); 
-          sendDistanceData(2);
-        }
+        sendDistanceData(2);
+      }
+      read_cnt = 0;
+    }
+    else read_cnt++;
   }
 }
 
