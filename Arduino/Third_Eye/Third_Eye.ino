@@ -237,4 +237,3 @@ void loop()
   ble_do_events();
   buf_len = 0;
 }
-
