@@ -24,10 +24,11 @@
 #define PWM                     0x03 // digital pin in PWM output mode
 #define SERVO                   0x04 // digital pin in Servo output mode
 
-// Ultrasonic sensor consts
+// Ultrasonic sensor
 const int DIST_VCLOSE = 59; // ceil(1.5 m * 39.37 in)
 const int DIST_CLOSE = 98; // ceil(2.5 m * 39.37 in)
 const int SENSOR_PIN = 9;
+enum directions_t {TOWARDS = 1, AWAY = 2, NOT_MOVING = 3, UNDETERMINED = 4};
 
 // Global variables
 SimpleTimer timer;
@@ -45,7 +46,6 @@ Servo servos[MAX_SERVOS];
 void setup()
 {
   Serial.begin(57600);
-  Serial.println("BLE Arduino Slave");
   
   /* Default all to digital input */
   for (int pin = 0; pin < TOTAL_PINS; pin++)
@@ -90,16 +90,19 @@ void sendDistanceData(int level) {
 }
 
 int getMovingDirection() {
-  int direct;  // 0 when not moving, 1 when moving away, -1 when moving towards
   float slope = distance_hist.getSlopeOfAverage();
 
-  if (slope < 0.3 && slope > -0.3) direct = 0;
-  else if (slope >= 0.3) direct = 1;
-  else direct = -1;
-  
+  Serial.print("Slope: ");  // DEBUG ONLY?
   Serial.println(slope);
-  
-  return direct;
+
+  if (slope < 0.3 && slope > -0.3) return NOT_MOVING;
+  else if (slope >= 0.3) return TOWARDS;
+  else if (slope <= -0.3) return AWAY;
+  else {
+    Serial.print("getMovingDirection() - slope was equal to ");
+    Serial.println(slope);
+    return UNDETERMINED;
+  }
 }
 
 void readSensor() {
@@ -110,7 +113,6 @@ void readSensor() {
     distance_hist.addValue(sensor_distance);
     
     if (read_cnt == 5) {
-      
       int avg = distance_hist.getAverage();
       
       if (avg < DIST_VCLOSE) {
@@ -119,10 +121,13 @@ void readSensor() {
       }
       else if (avg < DIST_CLOSE && avg > DIST_VCLOSE) {
         Serial.println("Close (2)"); 
-        if (getMovingDirection() == -1) {
+        if (getMovingDirection() == TOWARDS) {
           Serial.println("Close and moving closer"); 
         }
         sendDistanceData(2);
+      }
+      else {
+        getMovingDirection(); // DEBUG ONLY?
       }
       read_cnt = 0;
     }
@@ -296,7 +301,7 @@ void loop()
   {
     byte cmd;
     cmd = ble_read();
-    Serial.write(cmd);
+//    Serial.write(cmd);
     
     // Do a sensor check
     timer.run();

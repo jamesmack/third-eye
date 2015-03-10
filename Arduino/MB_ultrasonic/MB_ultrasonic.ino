@@ -1,6 +1,8 @@
 #include <SimpleTimer.h>
 #include <Trends.h>
 
+enum directions_t {TOWARDS = 1, AWAY = 2, NOT_MOVING = 3, UNDETERMINED = 4};
+
 const int DIST_VCLOSE = 60; // ceil(1.5 m * 39.37 in)
 const int DIST_CLOSE = 98; // ceil(2.5 m * 39.37 in)
 // warn between 80-200 if something closing
@@ -14,16 +16,16 @@ Trends distance_hist(5, 5);
 int read_cnt = 0;
 
 int getMovingDirection() {
-  int direct;  // 0 when not moving, 1 when moving away, -1 when moving towards
   float slope = distance_hist.getSlopeOfAverage();
 
-  if (slope < 0.3 && slope > -0.3) direct = 0;
-  else if (slope >= 0.3) direct = 1;
-  else direct = -1;
-  
-  Serial.println(slope);
-  
-  return direct;
+  if (slope < 0.3 && slope > -0.3) return NOT_MOVING;
+  else if (slope >= 0.3) return TOWARDS;
+  else if (slope <= -0.3) return AWAY;
+  else {
+    Serial.print('Error in getMovingDirection - slope was equal to '); 
+    Serial.println(slope);
+    return UNDETERMINED;
+  }
 }
 
 void readSensor() {
@@ -34,7 +36,6 @@ void readSensor() {
     distance_hist.addValue(sensor_distance);
     
     if (read_cnt == 5) {
-      
       int avg = distance_hist.getAverage();
       
       if (avg < DIST_VCLOSE) {
@@ -43,13 +44,13 @@ void readSensor() {
       }
       else if (avg < DIST_CLOSE && avg > DIST_VCLOSE) {
         Serial.println("Close (2)"); 
-        if (getMovingDirection() == -1) {
+        if (getMovingDirection() == TOWARDS) {
           Serial.println("Close and moving closer"); 
         }
 //        sendDistanceData(2);
       }
       else {
-        getMovingDirection(); 
+        Serial.println(getMovingDirection()); 
       }
       read_cnt = 0;
     }
