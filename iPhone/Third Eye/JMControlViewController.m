@@ -139,26 +139,6 @@ NSTimer *syncTimer;
     NSLog(@"protocolDidReceivePinMode: not implemented");
 }
 
--(void) protocolDidReceiveTotalPinCount:(UInt8) count
-{
-    NSLog(@"protocolDidReceiveTotalPinCount: not implemented");
-}
-
--(void) protocolDidReceivePinCapability:(uint8_t)pin Value:(uint8_t)value
-{
-    NSLog(@"protocolDidReceivePinCapability: not implemented");
-}
-
--(void) protocolDidReceivePinData:(uint8_t)pin Mode:(uint8_t)mode Value:(uint8_t)value
-{
-    NSLog(@"protocolDidReceivePinData: not implemented");
-}
-
--(void) protocolDidReceivePinMode:(uint8_t)pin Mode:(uint8_t)mode
-{
-    NSLog(@"protocolDidReceivePinMode: not implemented");
-}
-
 -(void) protocolDidReceiveCustomData:(uint8_t *)data length:(uint8_t)length
 {
     if (length == 2) {
