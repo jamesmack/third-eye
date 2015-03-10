@@ -117,6 +117,78 @@ NSTimer *syncTimer;
     
     // get response, so stop timer
     [syncTimer invalidate];
+    
+//    [protocol queryTotalPinCount]; // Commenting this out prevents initial population
+                                     // of pin states and a lot of communication
+}
+
+-(void) protocolDidReceiveTotalPinCount:(UInt8) count
+{
+    NSLog(@"protocolDidReceiveTotalPinCount: %d", count);
+    
+    total_pin_count = count;
+    [protocol queryPinAll];
+}
+
+-(void) protocolDidReceivePinCapability:(uint8_t)pin Value:(uint8_t)value
+{
+#if defined(CV_DEBUG)
+    NSLog(@"protocolDidReceivePinCapability");
+    NSLog(@" Pin %d Capability: 0x%02X", pin, value);
+#endif
+    
+    if (value == 0)
+        NSLog(@" - Nothing");
+    else
+    {
+        if (value & PIN_CAPABILITY_DIGITAL)
+            NSLog(@" - DIGITAL (I/O)");
+        if (value & PIN_CAPABILITY_ANALOG)
+            NSLog(@" - ANALOG");
+        if (value & PIN_CAPABILITY_PWM)
+            NSLog(@" - PWM");
+        if (value & PIN_CAPABILITY_SERVO)
+            NSLog(@" - SERVO");
+    }
+    
+    pin_cap[pin] = value;
+}
+
+-(void) protocolDidReceivePinData:(uint8_t)pin Mode:(uint8_t)mode Value:(uint8_t)value
+{
+    NSLog(@"protocolDidReceiveDigitalData");
+    NSLog(@" Pin: %d, mode: %d, value: %d", pin, mode, value);
+    
+    uint8_t _mode = mode & 0x0F;
+    
+    pin_mode[pin] = _mode;
+    if ((_mode == INPUT) || (_mode == OUTPUT))
+        pin_digital[pin] = value;
+    else if (_mode == ANALOG)
+        pin_analog[pin] = ((mode >> 4) << 8) + value;
+    else if (_mode == PWM)
+        pin_pwm[pin] = value;
+    else if (_mode == SERVO)
+        pin_servo[pin] = value;
+    
+    [tv reloadData];
+}
+
+-(void) protocolDidReceivePinMode:(uint8_t)pin Mode:(uint8_t)mode
+{
+    NSLog(@"protocolDidReceivePinMode");
+    
+    if (mode == INPUT)
+        NSLog(@" Pin %d Mode: INPUT", pin);
+    else if (mode == OUTPUT)
+        NSLog(@" Pin %d Mode: OUTPUT", pin);
+    else if (mode == PWM)
+        NSLog(@" Pin %d Mode: PWM", pin);
+    else if (mode == SERVO)
+        NSLog(@" Pin %d Mode: SERVO", pin);
+    
+    pin_mode[pin] = mode;
+    [tv reloadData];
 }
 
 -(void) protocolDidReceiveTotalPinCount:(UInt8) count
