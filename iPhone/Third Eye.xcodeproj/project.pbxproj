@@ -19,7 +19,6 @@
 		1AB8E7BC1A845E1500D33FF2 /* JMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7AE1A845E1500D33FF2 /* JMMainViewController.m */; };
 		1AB8E7BD1A845E1500D33FF2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7AF1A845E1500D33FF2 /* main.m */; };
 		1AB8E7BE1A845E1500D33FF2 /* RedBearLab.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1AB8E7B01A845E1500D33FF2 /* RedBearLab.jpg */; };
-		1AB8E7BF1A845E1500D33FF2 /* Third Eye-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AB8E7B11A845E1500D33FF2 /* Third Eye-Info.plist */; };
 		1AB8E7C01A845E1500D33FF2 /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AB8E7B31A845E1500D33FF2 /* title.png */; };
 		29BC634318212D7E00E16AFF /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29BC634218212D7E00E16AFF /* CoreBluetooth.framework */; };
 		29BC634818212DCE00E16AFF /* RBLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BC634718212DCE00E16AFF /* RBLProtocol.m */; };
@@ -197,7 +196,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = JM;
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = JamesMackenzie;
 				TargetAttributes = {
 					C27E82971820DB490032D858 = {
@@ -234,7 +233,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AB8E7B81A845E1500D33FF2 /* Images.xcassets in Resources */,
-				1AB8E7BF1A845E1500D33FF2 /* Third Eye-Info.plist in Resources */,
 				1AB8E7C01A845E1500D33FF2 /* title.png in Resources */,
 				1AB8E7BE1A845E1500D33FF2 /* RedBearLab.jpg in Resources */,
 				1AB8E7B41A845E1500D33FF2 /* Main.storyboard in Resources */,

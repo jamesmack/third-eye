@@ -5,6 +5,7 @@
 #include <boards.h>
 #include <RBL_nRF8001.h>
 #include "Boards.h"
+#include "Third_Eye.h"
 
 #define PROTOCOL_MAJOR_VERSION   0
 #define PROTOCOL_MINOR_VERSION   0
@@ -28,7 +29,6 @@
 const int DIST_VCLOSE = 59; // ceil(1.5 m * 39.37 in)
 const int DIST_CLOSE = 98; // ceil(2.5 m * 39.37 in)
 const int SENSOR_PIN = 9;
-enum directions_t {TOWARDS = 1, AWAY = 2, NOT_MOVING = 3, UNDETERMINED = 4};
 
 // Global variables
 SimpleTimer timer;
@@ -72,19 +72,12 @@ void setup()
 
 //// Ultrasonic code
 
-void sendDistanceData(int level) {
-  const int str_len = 1;
-  uint8_t str[str_len+1];  // String plus null  
+void sendDistanceData(int level, directions_t dir) {
+  const int str_len = 2;
+  uint8_t str[str_len+1];  // Data plus null  
   
-  if (level == 1) {
-    str[0] = 1;
-  }
-  else if (level == 2) {
-    str[0] = 2;
-  }
-  else {
-    return;
-  }
+  str[0] = level;
+  str[1] = dir;
   
   sendCustomData(str, str_len); 
 }
@@ -117,14 +110,11 @@ void readSensor() {
       
       if (avg < DIST_VCLOSE) {
           Serial.println("Very close (1)");
-          sendDistanceData(1);
+          sendDistanceData(1, (directions_t)getMovingDirection());
       }
       else if (avg < DIST_CLOSE && avg > DIST_VCLOSE) {
         Serial.println("Close (2)"); 
-        if (getMovingDirection() == TOWARDS) {
-          Serial.println("Close and moving closer"); 
-        }
-        sendDistanceData(2);
+        sendDistanceData(2, (directions_t)getMovingDirection());
       }
       else {
         getMovingDirection(); // DEBUG ONLY?
