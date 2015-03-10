@@ -15,6 +15,8 @@
 #import "RBLProtocol.h"
 #import "BLE.h"
 
+enum directions_t {TOWARDS = 1, AWAY = 2, NOT_MOVING = 3, UNDETERMINED = 4};
+
 @interface JMControlViewController : UITableViewController <ProtocolDelegate>
 {
     IBOutlet UITableView *tv;
