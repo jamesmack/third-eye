@@ -22,7 +22,7 @@ static services_pipe_type_mapping_t * services_pipe_type_mapping = NULL;
 #endif
 
 /* Store the setup for the nRF8001 in the flash of the AVR to save on RAM */
-static hal_aci_data_t setup_msgs[NB_SETUP_MESSAGES] PROGMEM = SETUP_MESSAGES_CONTENT;
+static const hal_aci_data_t setup_msgs[NB_SETUP_MESSAGES] PROGMEM = SETUP_MESSAGES_CONTENT;
 
 #if defined(BLEND_MICRO)
 static char device_name[11] = "BlendMicro";
@@ -112,7 +112,7 @@ void ble_begin()
         aci_state.aci_setup_info.services_pipe_type_mapping = NULL;
     }
     aci_state.aci_setup_info.number_of_pipes    = NUMBER_OF_PIPES;
-    aci_state.aci_setup_info.setup_msgs         = setup_msgs;
+    aci_state.aci_setup_info.setup_msgs         = (hal_aci_data_t*)setup_msgs;
     aci_state.aci_setup_info.num_setup_msgs     = NB_SETUP_MESSAGES;
 
     /*
