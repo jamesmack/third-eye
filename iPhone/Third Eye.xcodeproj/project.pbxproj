@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A6300401A9D74950013D894 /* JMAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A63003F1A9D74950013D894 /* JMAlert.m */; };
 		1A6300421A9D85390013D894 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A6300411A9D85390013D894 /* AudioToolbox.framework */; };
+		1A7CEA2B1AB0118E00B85906 /* logo-main.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A7CEA2A1AB0118E00B85906 /* logo-main.png */; };
 		1AB8E7B41A845E1500D33FF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AB8E79E1A845E1500D33FF2 /* Main.storyboard */; };
 		1AB8E7B51A845E1500D33FF2 /* CellPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7A11A845E1500D33FF2 /* CellPin.m */; };
 		1AB8E7B61A845E1500D33FF2 /* CellUuid.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7A31A845E1500D33FF2 /* CellUuid.m */; };
@@ -19,9 +20,6 @@
 		1AB8E7BB1A845E1500D33FF2 /* JMDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7AC1A845E1500D33FF2 /* JMDetailViewController.m */; };
 		1AB8E7BC1A845E1500D33FF2 /* JMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7AE1A845E1500D33FF2 /* JMMainViewController.m */; };
 		1AB8E7BD1A845E1500D33FF2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7AF1A845E1500D33FF2 /* main.m */; };
-		1AB8E7BE1A845E1500D33FF2 /* RedBearLab.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1AB8E7B01A845E1500D33FF2 /* RedBearLab.jpg */; };
-		1AB8E7BF1A845E1500D33FF2 /* Third Eye-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AB8E7B11A845E1500D33FF2 /* Third Eye-Info.plist */; };
-		1AB8E7C01A845E1500D33FF2 /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AB8E7B31A845E1500D33FF2 /* title.png */; };
 		29BC634318212D7E00E16AFF /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29BC634218212D7E00E16AFF /* CoreBluetooth.framework */; };
 		29BC634818212DCE00E16AFF /* RBLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BC634718212DCE00E16AFF /* RBLProtocol.m */; };
 		29BC634C18212DD900E16AFF /* BLE.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BC634A18212DD900E16AFF /* BLE.m */; };
@@ -34,6 +32,7 @@
 		1A63003E1A9D74950013D894 /* JMAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMAlert.h; sourceTree = "<group>"; };
 		1A63003F1A9D74950013D894 /* JMAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMAlert.m; sourceTree = "<group>"; };
 		1A6300411A9D85390013D894 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		1A7CEA2A1AB0118E00B85906 /* logo-main.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-main.png"; sourceTree = "<group>"; };
 		1AB8E79F1A845E1500D33FF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1AB8E7A01A845E1500D33FF2 /* CellPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellPin.h; sourceTree = "<group>"; };
 		1AB8E7A11A845E1500D33FF2 /* CellPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellPin.m; sourceTree = "<group>"; };
@@ -50,10 +49,8 @@
 		1AB8E7AD1A845E1500D33FF2 /* JMMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMMainViewController.h; sourceTree = "<group>"; };
 		1AB8E7AE1A845E1500D33FF2 /* JMMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMMainViewController.m; sourceTree = "<group>"; };
 		1AB8E7AF1A845E1500D33FF2 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		1AB8E7B01A845E1500D33FF2 /* RedBearLab.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = RedBearLab.jpg; sourceTree = "<group>"; };
 		1AB8E7B11A845E1500D33FF2 /* Third Eye-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Third Eye-Info.plist"; sourceTree = "<group>"; };
 		1AB8E7B21A845E1500D33FF2 /* Third Eye-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Third Eye-Prefix.pch"; sourceTree = "<group>"; };
-		1AB8E7B31A845E1500D33FF2 /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
 		29BC634218212D7E00E16AFF /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		29BC634618212DCE00E16AFF /* RBLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBLProtocol.h; path = RBLProtocol/RBLProtocol.h; sourceTree = "<group>"; };
 		29BC634718212DCE00E16AFF /* RBLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBLProtocol.m; path = RBLProtocol/RBLProtocol.m; sourceTree = SOURCE_ROOT; };
@@ -93,6 +90,7 @@
 		1AB8E79D1A845E1500D33FF2 /* Third Eye */ = {
 			isa = PBXGroup;
 			children = (
+				1A7CEA2A1AB0118E00B85906 /* logo-main.png */,
 				1AB8E79E1A845E1500D33FF2 /* Main.storyboard */,
 				1AB8E7A01A845E1500D33FF2 /* CellPin.h */,
 				1AB8E7A11A845E1500D33FF2 /* CellPin.m */,
@@ -111,8 +109,6 @@
 				1AB8E7AF1A845E1500D33FF2 /* main.m */,
 				1AB8E7B11A845E1500D33FF2 /* Third Eye-Info.plist */,
 				1AB8E7B21A845E1500D33FF2 /* Third Eye-Prefix.pch */,
-				1AB8E7B31A845E1500D33FF2 /* title.png */,
-				1AB8E7B01A845E1500D33FF2 /* RedBearLab.jpg */,
 				1A63003E1A9D74950013D894 /* JMAlert.h */,
 				1A63003F1A9D74950013D894 /* JMAlert.m */,
 			);
@@ -198,7 +194,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = JM;
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = JamesMackenzie;
 				TargetAttributes = {
 					C27E82971820DB490032D858 = {
@@ -235,11 +231,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AB8E7B81A845E1500D33FF2 /* Images.xcassets in Resources */,
-				1AB8E7BF1A845E1500D33FF2 /* Third Eye-Info.plist in Resources */,
-				1AB8E7C01A845E1500D33FF2 /* title.png in Resources */,
-				1AB8E7BE1A845E1500D33FF2 /* RedBearLab.jpg in Resources */,
 				1AB8E7B41A845E1500D33FF2 /* Main.storyboard in Resources */,
 				1AB8E7B71A845E1500D33FF2 /* InfoPlist.strings in Resources */,
+				1A7CEA2B1AB0118E00B85906 /* logo-main.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,11 +355,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Third Eye/Third Eye-Prefix.pch";
 				INFOPLIST_FILE = "Third Eye/Third Eye-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				PRODUCT_NAME = "Third Eye";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -377,11 +373,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Third Eye/Third Eye-Prefix.pch";
 				INFOPLIST_FILE = "Third Eye/Third Eye-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				PRODUCT_NAME = "Third Eye";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="rS3-R9-Ivy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="rS3-R9-Ivy">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -32,7 +32,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgm-ba-V8C">
-                                <rect key="frame" x="20" y="375" width="280" height="30"/>
+                                <rect key="frame" x="20" y="392" width="280" height="30"/>
                                 <state key="normal" title="Scan">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -41,10 +41,10 @@
                                 </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Uqr-97-Tq1">
-                                <rect key="frame" x="150" y="342" width="20" height="20"/>
+                                <rect key="frame" x="150" y="359" width="20" height="20"/>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wB2-9r-3zn">
-                                <rect key="frame" x="20" y="413" width="280" height="30"/>
+                                <rect key="frame" x="20" y="430" width="280" height="30"/>
                                 <state key="normal" title="Connect Last">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -52,7 +52,7 @@
                                     <action selector="lastClick:" destination="19Q-h3-wvr" eventType="touchUpInside" id="wtG-hq-6Bx"/>
                                 </connections>
                             </button>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="RedBearLab.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="9kp-s6-KjS">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="logo-main.png" translatesAutoresizingMaskIntoConstraints="NO" id="9kp-s6-KjS">
                                 <rect key="frame" x="0.0" y="68" width="320" height="288"/>
                             </imageView>
                         </subviews>
@@ -137,93 +137,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="cell_pin" rowHeight="60" id="EFj-aw-uIp" customClass="CellPin">
-                                <rect key="frame" x="0.0" y="86" width="320" height="60"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EFj-aw-uIp" id="8Pn-db-OY9">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="X" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="opP-uo-Wcg">
-                                            <rect key="frame" x="25" y="19" width="42" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="42" id="nEB-2H-y2j"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IBG-Df-q0T">
-                                            <rect key="frame" x="83" y="14" width="86" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="86" id="oLh-e7-Wxa"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                            <state key="normal" title="Input">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="modeChange:" destination="pGg-6v-bdr" eventType="touchUpInside" id="oJf-6f-diF"/>
-                                            </connections>
-                                        </button>
-                                        <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="k5X-u8-8PI">
-                                            <rect key="frame" x="209" y="8" width="84" height="37"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="84" id="eHI-Yj-mYS"/>
-                                            </constraints>
-                                            <segments>
-                                                <segment title="L"/>
-                                                <segment title="H"/>
-                                            </segments>
-                                            <connections>
-                                                <action selector="toggleHL:" destination="pGg-6v-bdr" eventType="valueChanged" id="ALr-NF-19A"/>
-                                            </connections>
-                                        </segmentedControl>
-                                        <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="127.5" minValue="0.0" maxValue="255" translatesAutoresizingMaskIntoConstraints="NO" id="SsF-YK-jTI">
-                                            <rect key="frame" x="192" y="16" width="118" height="34"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="114" id="ZKN-t4-HgT"/>
-                                            </constraints>
-                                            <connections>
-                                                <action selector="sliderChange:" destination="pGg-6v-bdr" eventType="valueChanged" id="ku5-jz-SSM"/>
-                                                <action selector="sliderTouchUp:" destination="pGg-6v-bdr" eventType="touchUpInside" id="R2s-J0-iyo"/>
-                                            </connections>
-                                        </slider>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hnT-qr-hTt">
-                                            <rect key="frame" x="231" y="19" width="42" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="42" id="4jI-9f-HMf"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="hnT-qr-hTt" secondAttribute="bottom" constant="20" id="6zm-4q-ykJ"/>
-                                    <constraint firstAttribute="bottom" secondItem="opP-uo-Wcg" secondAttribute="bottom" constant="20" id="8Xa-0f-buk"/>
-                                    <constraint firstItem="k5X-u8-8PI" firstAttribute="centerX" secondItem="SsF-YK-jTI" secondAttribute="centerX" id="AsF-UN-vet"/>
-                                    <constraint firstAttribute="trailing" secondItem="SsF-YK-jTI" secondAttribute="trailing" constant="12" id="BgR-Zc-Hpb"/>
-                                    <constraint firstItem="SsF-YK-jTI" firstAttribute="top" secondItem="hnT-qr-hTt" secondAttribute="top" id="Brh-01-lc8"/>
-                                    <constraint firstItem="hnT-qr-hTt" firstAttribute="baseline" secondItem="IBG-Df-q0T" secondAttribute="baseline" id="MIQ-Ll-Gio"/>
-                                    <constraint firstItem="opP-uo-Wcg" firstAttribute="leading" secondItem="EFj-aw-uIp" secondAttribute="leading" constant="25" id="VpX-JB-3Qf"/>
-                                    <constraint firstItem="IBG-Df-q0T" firstAttribute="leading" secondItem="EFj-aw-uIp" secondAttribute="leading" constant="83" id="eFA-PH-r4d"/>
-                                    <constraint firstItem="hnT-qr-hTt" firstAttribute="baseline" secondItem="k5X-u8-8PI" secondAttribute="baseline" id="egL-oB-cra"/>
-                                    <constraint firstItem="hnT-qr-hTt" firstAttribute="centerY" secondItem="k5X-u8-8PI" secondAttribute="centerY" id="lxd-C4-aj3"/>
-                                    <constraint firstItem="k5X-u8-8PI" firstAttribute="bottom" secondItem="IBG-Df-q0T" secondAttribute="bottom" id="r4J-pg-Aed"/>
-                                    <constraint firstAttribute="trailing" secondItem="hnT-qr-hTt" secondAttribute="trailing" constant="47" id="wlA-24-ffz"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="btnMode" destination="IBG-Df-q0T" id="Tts-Zs-zg5"/>
-                                    <outlet property="lblAnalog" destination="hnT-qr-hTt" id="zag-lG-UPm"/>
-                                    <outlet property="lblPin" destination="opP-uo-Wcg" id="x5n-Ah-6Bf"/>
-                                    <outlet property="sgmHL" destination="k5X-u8-8PI" id="UMH-iV-U3L"/>
-                                    <outlet property="sldPWM" destination="SsF-YK-jTI" id="oO3-u4-fxR"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
                         <sections/>
                         <connections>
                             <outlet property="dataSource" destination="pGg-6v-bdr" id="P41-gY-KXY"/>
@@ -249,7 +162,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="RedBearLab.jpg" width="240" height="240"/>
+        <image name="logo-main.png" width="640" height="576"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
