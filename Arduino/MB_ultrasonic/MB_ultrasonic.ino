@@ -1,45 +1,69 @@
 #include <SimpleTimer.h>
-#include <QueueList.h>
+#include <Trends.h>
 
-const int dist_vclose = 39; // ceil(1 m * 39.37 in)
-const int dist_close = 79; // ceil(2 m * 39.37 in)
-const int sensor_pin = 9;
-const int avg_power = 2;     // 1 for 2 readings, 2 for 4 readings, 3 for 8, etc.
-const int avg_count = pow(2, avg_power);
+enum directions_t {TOWARDS = 1, AWAY = 2, NOT_MOVING = 3, UNDETERMINED = 4};
+
+const int DIST_VCLOSE = 60; // ceil(1.5 m * 39.37 in)
+const int DIST_CLOSE = 98; // ceil(2.5 m * 39.37 in)
+// warn between 80-200 if something closing
+// reading can fluct between 20-60 when right next to car
+// use moving avg to build collection of last 10-20 readings for best fit
+const unsigned int SENSOR_PIN = 9;
 
 SimpleTimer timer;
-long distance, reading;
-QueueList <int> sensor_readings;
+int sensor_distance, sensor_raw;
+Trends distance_hist(5, 5);
+int read_cnt = 0;
 
-int average(QueueList<int> & q, int avg_power) {
-    long sum = 0;
-    for (int i = 0; i < avg_count; i++) {
-        sum += q.pop();
-    }
-    return (sum >> avg_power);
-}
+int getMovingDirection() {
+  float slope = distance_hist.getSlopeOfAverage();
 
-void readSensor() {
-  reading = pulseIn(sensor_pin, HIGH);
-  distance = reading/147;
-  sensor_readings.push(distance);
-  if(sensor_readings.count() > avg_count) {
-        int avg = average(sensor_readings, avg_power);
-        if (avg < dist_vclose) {
-          Serial.println("Very close");
-        }
-        else if (avg < dist_close && avg > dist_vclose) {
-         Serial.println("Close"); 
-        }
+  if (slope < 0.3 && slope > -0.3) return NOT_MOVING;
+  else if (slope >= 0.3) return TOWARDS;
+  else if (slope <= -0.3) return AWAY;
+  else {
+    Serial.print('Error in getMovingDirection - slope was equal to '); 
+    Serial.println(slope);
+    return UNDETERMINED;
   }
 }
 
-void setup () {
-  Serial.begin(9600);
-  pinMode(sensor_pin, INPUT);
-  timer.setInterval(75, readSensor);
+void readSensor() {
+//  if (!ble_connected()) return;
+  sensor_raw = pulseIn(SENSOR_PIN, HIGH);
+  sensor_distance = sensor_raw/147;
+  if (sensor_distance != 246) {
+    distance_hist.addValue(sensor_distance);
+    
+    if (read_cnt == 5) {
+      int avg = distance_hist.getAverage();
+      
+      if (avg < DIST_VCLOSE) {
+          Serial.println("Very close (1)");
+//          sendDistanceData(1);
+      }
+      else if (avg < DIST_CLOSE && avg > DIST_VCLOSE) {
+        Serial.println("Close (2)"); 
+        if (getMovingDirection() == TOWARDS) {
+          Serial.println("Close and moving closer"); 
+        }
+//        sendDistanceData(2);
+      }
+      else {
+        Serial.println(getMovingDirection()); 
+      }
+      read_cnt = 0;
+    }
+    else read_cnt++;
+  }
 }
 
 void loop() {
     timer.run();
+}
+
+void setup() {
+ Serial.begin(9600); 
+ pinMode(SENSOR_PIN, INPUT);
+ timer.setInterval(75, readSensor);
 }
