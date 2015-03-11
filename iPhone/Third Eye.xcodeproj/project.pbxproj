@@ -19,11 +19,6 @@
 		1AB8E7BB1A845E1500D33FF2 /* JMDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7AC1A845E1500D33FF2 /* JMDetailViewController.m */; };
 		1AB8E7BC1A845E1500D33FF2 /* JMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7AE1A845E1500D33FF2 /* JMMainViewController.m */; };
 		1AB8E7BD1A845E1500D33FF2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7AF1A845E1500D33FF2 /* main.m */; };
-<<<<<<< HEAD
-=======
-		1AB8E7BE1A845E1500D33FF2 /* RedBearLab.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1AB8E7B01A845E1500D33FF2 /* RedBearLab.jpg */; };
-		1AB8E7C01A845E1500D33FF2 /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AB8E7B31A845E1500D33FF2 /* title.png */; };
->>>>>>> iPhone app now understands directionality of data
 		29BC634318212D7E00E16AFF /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29BC634218212D7E00E16AFF /* CoreBluetooth.framework */; };
 		29BC634818212DCE00E16AFF /* RBLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BC634718212DCE00E16AFF /* RBLProtocol.m */; };
 		29BC634C18212DD900E16AFF /* BLE.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BC634A18212DD900E16AFF /* BLE.m */; };
