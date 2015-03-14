@@ -19,8 +19,8 @@ int getMovingDirection() {
   float slope = distance_hist.getSlopeOfAverage();
 
   if (slope < 0.3 && slope > -0.3) return NOT_MOVING;
-  else if (slope >= 0.3) return TOWARDS;
-  else if (slope <= -0.3) return AWAY;
+  else if (slope >= 0.3) return AWAY;
+  else if (slope <= -0.3) return TOWARDS;
   else {
     Serial.print('Error in getMovingDirection - slope was equal to '); 
     Serial.println(slope);

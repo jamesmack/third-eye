@@ -89,8 +89,8 @@ int getMovingDirection() {
   Serial.println(slope);
 
   if (slope < 0.3 && slope > -0.3) return NOT_MOVING;
-  else if (slope >= 0.3) return TOWARDS;
-  else if (slope <= -0.3) return AWAY;
+  else if (slope >= 0.3) return AWAY;
+  else if (slope <= -0.3) return TOWARDS;
   else {
     Serial.print("getMovingDirection() - slope was equal to ");
     Serial.println(slope);

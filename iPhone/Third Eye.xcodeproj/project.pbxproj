@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1A6300401A9D74950013D894 /* JMAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A63003F1A9D74950013D894 /* JMAlert.m */; };
 		1A6300421A9D85390013D894 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A6300411A9D85390013D894 /* AudioToolbox.framework */; };
-		1A7CEA2B1AB0118E00B85906 /* logo-main.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A7CEA2A1AB0118E00B85906 /* logo-main.png */; };
 		1AB8E7B41A845E1500D33FF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AB8E79E1A845E1500D33FF2 /* Main.storyboard */; };
 		1AB8E7B51A845E1500D33FF2 /* CellPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7A11A845E1500D33FF2 /* CellPin.m */; };
 		1AB8E7B61A845E1500D33FF2 /* CellUuid.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7A31A845E1500D33FF2 /* CellUuid.m */; };
@@ -19,6 +18,7 @@
 		1AB8E7BB1A845E1500D33FF2 /* JMDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7AC1A845E1500D33FF2 /* JMDetailViewController.m */; };
 		1AB8E7BC1A845E1500D33FF2 /* JMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7AE1A845E1500D33FF2 /* JMMainViewController.m */; };
 		1AB8E7BD1A845E1500D33FF2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8E7AF1A845E1500D33FF2 /* main.m */; };
+		1AE21FB21AB4B1BE005990A9 /* logo-main.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A7CEA2A1AB0118E00B85906 /* logo-main.png */; };
 		29BC634318212D7E00E16AFF /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29BC634218212D7E00E16AFF /* CoreBluetooth.framework */; };
 		29BC634818212DCE00E16AFF /* RBLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BC634718212DCE00E16AFF /* RBLProtocol.m */; };
 		29BC634C18212DD900E16AFF /* BLE.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BC634A18212DD900E16AFF /* BLE.m */; };
@@ -229,6 +229,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AE21FB21AB4B1BE005990A9 /* logo-main.png in Resources */,
 				1AB8E7B81A845E1500D33FF2 /* Images.xcassets in Resources */,
 				1AB8E7B41A845E1500D33FF2 /* Main.storyboard in Resources */,
 			);
