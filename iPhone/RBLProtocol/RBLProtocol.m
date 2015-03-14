@@ -33,7 +33,8 @@
         switch (type)
         {
             case 'V': // report protocol version
-                [[self delegate] protocolDidReceiveProtocolVersion:data[i++] Minor:data[i++] Bugfix:data[i++]];
+                [[self delegate] protocolDidReceiveProtocolVersion:data[i] Minor:data[i+1] Bugfix:data[i+2]];
+                i += 3;
                 break;
             
             case 'C': // report total pin count of the board
@@ -41,7 +42,8 @@
                 break;
             
             case 'P': // report pin capability
-                [[self delegate] protocolDidReceivePinCapability:data[i++] Value:data[i++]];
+                [[self delegate] protocolDidReceivePinCapability:data[i] Value:data[i+1]];
+                i += 2;
                 break;
             
             case 'Z': // custom data
@@ -50,11 +52,13 @@
                 break;
             
             case 'M': // report pin mode
-                [[self delegate] protocolDidReceivePinMode:data[i++] Mode:data[i++]];
+                [[self delegate] protocolDidReceivePinMode:data[i] Mode:data[i+1]];
+                i += 2;
                 break;
         
             case 'G': // report pin data
-                [[self delegate] protocolDidReceivePinData:data[i++] Mode:data[i++] Value:data[i++]];
+                [[self delegate] protocolDidReceivePinData:data[i] Mode:data[i+1] Value:data[i+2]];
+                i += 3;
                 break;
         }
     }
