@@ -141,12 +141,11 @@ NSTimer *syncTimer;
 
 -(void) protocolDidReceiveCustomData:(uint8_t *)data length:(uint8_t)length
 {
-    if (length == 2) {
+    if (length == 1) {
         NSInteger level = data[0];
-        enum directions_t direction = data[1];
         [JMAlert soundLevelAlert:level doEnable:true];
         [JMAlert vibLevelAlert:level doEnable:true];
-        NSLog(@"Recieved %ldm alert from hardware with direction %ld", (long)level, (long)direction);
+        NSLog(@"Recieved %ldm alert from hardware", (long)level);
     }
 }
 
