@@ -26,9 +26,11 @@
 #define SERVO                   0x04 // digital pin in Servo output mode
 
 // Ultrasonic sensor
-const int DIST_VCLOSE = 59; // ceil(1.5 m * 39.37 in)
-const int DIST_CLOSE = 98; // ceil(2.5 m * 39.37 in)
+const int DIST_VVCLOSE = 60; // ceil(1.5 m * 39.37 in/m)
+const int DIST_VCLOSE = 98; // ceil(2.5 m * 39.37 in/m)
+const int DIST_CLOSE = 138; // ceil(3.5 m * 39.37 in/m)
 const int SENSOR_PIN = 9;
+const int READ_INTERVAL = 75;  // in ms, can't be less than 50 ms due to sensor limitation
 
 // Global variables
 SimpleTimer timer;
@@ -36,51 +38,23 @@ int sensor_distance, sensor_raw;
 int read_cnt = 0;
 Trends distance_hist(5, 5);
 
-// Pin arrays
-byte pin_mode[TOTAL_PINS];
-byte pin_state[TOTAL_PINS];
-byte pin_pwm[TOTAL_PINS];
-byte pin_servo[TOTAL_PINS];
-Servo servos[MAX_SERVOS];
-
 void setup()
 {
   Serial.begin(57600);
-  
-  /* Default all to digital input */
-  for (int pin = 0; pin < TOTAL_PINS; pin++)
-  {
-    // Set pin to input with internal pull up
-    pinMode(pin, INPUT);
-    digitalWrite(pin, HIGH);
-
-    // Save pin mode and state
-    pin_mode[pin] = INPUT;
-    pin_state[pin] = LOW;
-  }
   
   // Set name here (max 10 chars)
   ble_set_name("Third Eye");
   
   // Set up sensor
   pinMode(SENSOR_PIN, INPUT);
-  timer.setInterval(75, readSensor);
+  timer.setInterval(READ_INTERVAL, readSensor);
   
   // Init. and start BLE library.
   ble_begin();
 }
 
 //// Ultrasonic code
-
-void sendDistanceData(int level, directions_t dir) {
-  const int str_len = 2;
-  uint8_t str[str_len+1];  // Data plus null  
-  
-  str[0] = level;
-  str[1] = dir;
-  
-  sendCustomData(str, str_len); 
-}
+// --------------------------------------------------------------------
 
 int getMovingDirection() {
   float slope = distance_hist.getSlopeOfAverage();
@@ -98,6 +72,69 @@ int getMovingDirection() {
   }
 }
 
+void sendAlertLevel(int distance) {
+  float slope = distance_hist.getSlopeOfAverage();
+  // (1 inch/(75 milliseconds) = 1.2192 kilometers/hour) * -1
+  // Multiplied by -1 so that positive is moving towards and negative is mivng away
+  float speed_diff_kph = slope * -1.2192;
+  alert_t level = ALERT_UNKNOWN;
+  const int str_len = 1;
+  uint8_t str[str_len + 1];  // Data plus null
+
+  // Check distance first, then speed
+  if (distance <= DIST_CLOSE && distance > DIST_VCLOSE)
+  {
+    if (speed_diff_kph <= 5.4 && speed_diff_kph > 3.6)
+    {
+      str[0] = ALERT_3;
+    }
+    else if (speed_diff_kph <= 10.8 && speed_diff_kph > 5.4)
+    {
+      str[0] = ALERT_2;
+    }
+    else if (speed_diff_kph > 10.8)
+    {
+      str[0] = ALERT_1;
+    }
+    else str[0] = ALERT_4; 
+  }
+  else if (distance <= DIST_VCLOSE && distance > DIST_VVCLOSE)
+  {
+    if (speed_diff_kph <= 3.6 && speed_diff_kph > 2.4)
+    {
+      str[0] = ALERT_3;
+    }
+    else if (speed_diff_kph <= 7.2 && speed_diff_kph > 3.6)
+    {
+      str[0] = ALERT_2;
+    }
+    else if (speed_diff_kph > 7.2)
+    {
+      str[0] = ALERT_1;
+    }
+  }
+  else if (distance <= DIST_VVCLOSE)
+  {
+    if (speed_diff_kph <= 1.8 && speed_diff_kph > 1.2)
+    {
+      str[0] = ALERT_3;
+    }
+    else if (speed_diff_kph <= 3.6 && speed_diff_kph > 1.8)
+    {
+      str[0] = ALERT_2;
+    }
+    else if (speed_diff_kph > 3.6)
+    {
+      str[0] = ALERT_1;
+    }
+  }
+  else
+  {
+    str[0] = ALERT_5;
+  }
+  sendCustomData(str, str_len); 
+}
+
 void readSensor() {
   if (!ble_connected()) return;
   sensor_raw = pulseIn(SENSOR_PIN, HIGH);
@@ -107,25 +144,14 @@ void readSensor() {
     
     if (read_cnt == 5) {
       int avg = distance_hist.getAverage();
-      
-      if (avg < DIST_VCLOSE) {
-          Serial.println("Very close (1)");
-          sendDistanceData(1, (directions_t)getMovingDirection());
-      }
-      else if (avg < DIST_CLOSE && avg > DIST_VCLOSE) {
-        Serial.println("Close (2)"); 
-        sendDistanceData(2, (directions_t)getMovingDirection());
-      }
-      else {
-        getMovingDirection(); // DEBUG ONLY?
-      }
+      sendAlertLevel(avg);
       read_cnt = 0;
     }
     else read_cnt++;
   }
 }
 
-//// End ultrasonic code
+// --------------------------------------------------------------------
 
 static byte buf_len = 0;
 
@@ -158,7 +184,7 @@ void sendCustomData(uint8_t *buf, uint8_t len)
 {
   uint8_t data[20] = "Z";
   memcpy(&data[1], buf, len);
-  ble_write_string(data, len+1);
+  ble_write_string(data, len + 1);
 }
 
 byte queryDone = false;
