@@ -21,7 +21,7 @@ boolean ble_connected() {
 }
 
 void sendCustomData(uint8_t *string, int length) {
-  Serial.println("Got data.");
+  Serial.println(string[0]);
 }
 // --------------------------------------------------------------------
 
