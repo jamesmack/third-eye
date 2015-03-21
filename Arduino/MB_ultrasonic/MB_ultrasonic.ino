@@ -46,9 +46,9 @@ int getMovingDirection() {
 
 void sendAlertLevel(int distance) {
   float slope = distance_hist.getSlopeOfAverage();
-  // (1 inch/(75 milliseconds) = 1.2192 kilometers/hour) * -1
-  // Multiplied by -1 so that positive is moving towards and negative is mivng away
-  float speed_diff_kph = slope * -1.2192;
+  // (1 inch/(375 milliseconds) = 0.24384 kilometers/hour) * -1
+  // Multiplied by -1 so that positive is moving towards and negative is moving away
+  float speed_diff_kph = slope * -0.24384;
   alert_t level = ALERT_UNKNOWN;
   const int str_len = 1;
   uint8_t str[str_len + 1];  // Data plus null
