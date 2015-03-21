@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		127001E51ABCDAE900838C6E /* JMSoundsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 127001E41ABCDAE900838C6E /* JMSoundsTableViewController.m */; };
 		1A6300401A9D74950013D894 /* JMAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A63003F1A9D74950013D894 /* JMAlert.m */; };
 		1A6300421A9D85390013D894 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A6300411A9D85390013D894 /* AudioToolbox.framework */; };
 		1AB8E7B41A845E1500D33FF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AB8E79E1A845E1500D33FF2 /* Main.storyboard */; };
@@ -28,6 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		127001E31ABCDAE900838C6E /* JMSoundsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMSoundsTableViewController.h; sourceTree = "<group>"; };
+		127001E41ABCDAE900838C6E /* JMSoundsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMSoundsTableViewController.m; sourceTree = "<group>"; };
 		1A63003E1A9D74950013D894 /* JMAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMAlert.h; sourceTree = "<group>"; };
 		1A63003F1A9D74950013D894 /* JMAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMAlert.m; sourceTree = "<group>"; };
 		1A6300411A9D85390013D894 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -110,6 +113,8 @@
 				1AB8E7B21A845E1500D33FF2 /* Third Eye-Prefix.pch */,
 				1A63003E1A9D74950013D894 /* JMAlert.h */,
 				1A63003F1A9D74950013D894 /* JMAlert.m */,
+				127001E31ABCDAE900838C6E /* JMSoundsTableViewController.h */,
+				127001E41ABCDAE900838C6E /* JMSoundsTableViewController.m */,
 			);
 			path = "Third Eye";
 			sourceTree = SOURCE_ROOT;
@@ -197,7 +202,7 @@
 				ORGANIZATIONNAME = JamesMackenzie;
 				TargetAttributes = {
 					C27E82971820DB490032D858 = {
-						DevelopmentTeam = RBK5SYTU4Z;
+						DevelopmentTeam = 292448B642;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -247,6 +252,7 @@
 				1AB8E7B51A845E1500D33FF2 /* CellPin.m in Sources */,
 				1A6300401A9D74950013D894 /* JMAlert.m in Sources */,
 				1AB8E7BA1A845E1500D33FF2 /* JMControlViewController.m in Sources */,
+				127001E51ABCDAE900838C6E /* JMSoundsTableViewController.m in Sources */,
 				1AB8E7BC1A845E1500D33FF2 /* JMMainViewController.m in Sources */,
 				1AB8E7B91A845E1500D33FF2 /* JMAppDelegate.m in Sources */,
 				1AB8E7BB1A845E1500D33FF2 /* JMDetailViewController.m in Sources */,

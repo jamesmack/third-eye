@@ -12,9 +12,11 @@
 @implementation JMAlert
 
 + (void)soundLevelAlert: (NSInteger) level
-              doEnable: (BOOL) enable {
+              doEnable: (BOOL) enable
+			  soundID: (NSInteger) soundNumber{
     if (level == 1)
-        AudioServicesPlaySystemSound (1005);
+        //AudioServicesPlaySystemSound (1005);
+		AudioServicesPlaySystemSound (soundNumber);
 }
 
 + (void)vibLevelAlert: (NSInteger) level

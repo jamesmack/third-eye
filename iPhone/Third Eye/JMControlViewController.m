@@ -12,6 +12,7 @@
  */
 
 #import "JMControlViewController.h"
+#import "JMSoundsTableViewController.h"
 #import "CellPin.h"
 #import "JMAlert.h"
 
@@ -25,6 +26,8 @@ uint8_t pin_servo[128]   = {0};
 
 uint8_t init_done = 0;
 
+BOOL vibrate = YES;
+
 @interface JMControlViewController ()
 
 @end
@@ -32,6 +35,7 @@ uint8_t init_done = 0;
 @implementation JMControlViewController
 @synthesize ble;
 @synthesize protocol;
+@synthesize alertToneString;
 
 - (void)awakeFromNib
 {
@@ -50,6 +54,12 @@ uint8_t init_done = 0;
     protocol.ble = ble;
     
     NSLog(@"ControlView: viewDidLoad");
+}
+
+-(void) viewWillAppear:(BOOL)animated{
+	if ([alertToneString length] > 0) {
+		self.alertToneLabel.text = alertToneString;
+	}
 }
 
 NSTimer *syncTimer;
@@ -111,6 +121,37 @@ NSTimer *syncTimer;
     [protocol parseData:data length:length];
 }
 
+- (IBAction)vibrateSwitch:(id)sender {
+	UISwitch *vibrateToggle = (UISwitch *)sender;
+	if ([vibrateToggle isOn]) {
+		vibrate = YES;
+	}else{
+		vibrate = NO;
+	}
+}
+
+
+- (IBAction)testButton:(id)sender {
+	NSInteger soundID = 1111;
+	if ([_alertToneLabel.text isEqualToString:@"Tara"]) {
+		soundID = 1111; // Tara
+	}else if ([_alertToneLabel.text isEqualToString:@"Tink - Key"]){
+		soundID = 1103; // Tink - Key
+	}else if ([_alertToneLabel.text isEqualToString:@"Tink - Pin"]){
+		soundID = 1057; // Tink - Pin
+	}else if ([_alertToneLabel.text isEqualToString:@"Tock"]){
+		soundID = 1306; // Tock
+	}else if ([_alertToneLabel.text isEqualToString:@"Touch"]){
+		soundID = 1202; // Touch
+	}else if ([_alertToneLabel.text isEqualToString:@"Short-Low-High"]){
+		soundID = 1256; // Short-Low-High
+	}
+	[JMAlert soundLevelAlert:1 doEnable:true soundID:soundID];
+	if (vibrate) {
+		[JMAlert vibLevelAlert:1 doEnable:true];
+	}
+}
+
 -(void) protocolDidReceiveProtocolVersion:(uint8_t)major Minor:(uint8_t)minor Bugfix:(uint8_t)bugfix
 {
     NSLog(@"protocolDidReceiveProtocolVersion: %d.%d.%d", major, minor, bugfix);
@@ -144,7 +185,7 @@ NSTimer *syncTimer;
     if (length == 2) {
         NSInteger level = data[0];
         enum directions_t direction = data[1];
-        [JMAlert soundLevelAlert:level doEnable:true];
+//        [JMAlert soundLevelAlert:level doEnable:true];
         [JMAlert vibLevelAlert:level doEnable:true];
         NSLog(@"Recieved %ldm alert from hardware with direction %ld", (long)level, (long)direction);
     }
@@ -156,14 +197,29 @@ NSTimer *syncTimer;
     return 1;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    uint8_t pin = indexPath.row;
-    
-    if (pin_cap[pin] == PIN_CAPABILITY_NONE)
-        return 0;
-    
-    return 60;
+
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+
+	 //JMSoundsTableViewController *destPage = segue.destinationViewController;
+	 //destPage.selectedSound = _alertToneLabel.text;
+	 
+	 JMSoundsTableViewController *soundPage = segue.destinationViewController;
+	 
+	 NSString *selectedAlert = _alertToneLabel.text;
+	 
+	 soundPage.selectedSound = selectedAlert;
+	 
+	 [soundPage setDelegate:self];
+	 
+ }
+
+#pragma mark - Protocol Method
+
+-(void)setAlertSoundName: (NSString*)alertName{
+	alertToneString = alertName;
 }
 
 @end

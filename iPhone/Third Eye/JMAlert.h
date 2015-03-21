@@ -11,7 +11,8 @@
 @interface JMAlert : NSObject
 
 + (void)soundLevelAlert: (NSInteger) level
-              doEnable: (BOOL) enable;
+              doEnable: (BOOL) enable
+				soundID: (NSInteger) soundNumber;
 
 + (void)vibLevelAlert: (NSInteger) level
             doEnable: (BOOL) enable;
