@@ -14,13 +14,22 @@
 #import <UIKit/UIKit.h>
 #import "RBLProtocol.h"
 #import "BLE.h"
+#import "JMSoundsTableViewController.h"
 
 enum directions_t {TOWARDS = 1, AWAY = 2, NOT_MOVING = 3, UNDETERMINED = 4};
 
-@interface JMControlViewController : UITableViewController <ProtocolDelegate>
+@interface JMControlViewController : UITableViewController <ProtocolDelegate, passAlertSound>
 {
     IBOutlet UITableView *tv;
 }
+
+@property (nonatomic, strong)NSString *alertToneString;
+
+@property (strong, nonatomic) IBOutlet UILabel *alertOneLabel;
+
+@property (strong, nonatomic) IBOutlet UILabel *alertTwoLabel;
+
+@property (strong, nonatomic) IBOutlet UILabel *alertThreeLabel;
 
 @property (strong, nonatomic) BLE *ble;
 @property (strong, nonatomic) RBLProtocol *protocol;

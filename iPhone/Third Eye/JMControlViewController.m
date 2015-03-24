@@ -12,6 +12,7 @@
  */
 
 #import "JMControlViewController.h"
+#import "JMSoundsTableViewController.h"
 #import "CellPin.h"
 #import "JMAlert.h"
 
@@ -25,13 +26,20 @@ uint8_t pin_servo[128]   = {0};
 
 uint8_t init_done = 0;
 
+NSInteger lastSelectedAlert=0;
+
 @interface JMControlViewController ()
 
 @end
 
-@implementation JMControlViewController
+@implementation JMControlViewController{
+	NSArray *sounds;
+	NSMutableArray *selectedAlerts;
+	NSArray *alertSoundIDs;
+}
 @synthesize ble;
 @synthesize protocol;
+@synthesize alertToneString;
 
 - (void)awakeFromNib
 {
@@ -43,6 +51,24 @@ uint8_t init_done = 0;
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 
+	selectedAlerts = [NSMutableArray arrayWithObjects:@"Tara",@"Tock",@"Short-Low-High", nil];
+
+	/* Sound IDs */
+	sounds = [NSArray arrayWithObjects:@"Tara",@"Tink - Key",@"Tink - Pin",@"Tock",@"Touch",@"Short-Low-High", nil];
+	NSNumber *Tara = [NSNumber numberWithInt:1111];
+	NSNumber *TinkK = [NSNumber numberWithInt:1103];
+	NSNumber *TinkP = [NSNumber numberWithInt:1057];
+	NSNumber *Tock = [NSNumber numberWithInt:1306];
+	NSNumber *Touch = [NSNumber numberWithInt:1202];
+	NSNumber *SLH = [NSNumber numberWithInt:1256];
+	
+	alertSoundIDs  = [NSArray arrayWithObjects: Tara, TinkK, TinkP, Tock, Touch, SLH, nil];
+	
+	
+	self.alertOneLabel.text = selectedAlerts[0];
+	self.alertTwoLabel.text = selectedAlerts[1];
+	self.alertThreeLabel.text = selectedAlerts[2];
+	
     self.navigationItem.hidesBackButton = YES;
 
     protocol = [[RBLProtocol alloc] init];
@@ -50,6 +76,15 @@ uint8_t init_done = 0;
     protocol.ble = ble;
     
     NSLog(@"ControlView: viewDidLoad");
+}
+
+-(void) viewWillAppear:(BOOL)animated{
+	if ([alertToneString length] > 0) {
+		selectedAlerts[lastSelectedAlert] = alertToneString;
+		self.alertOneLabel.text = selectedAlerts[0];
+		self.alertTwoLabel.text = selectedAlerts[1];
+		self.alertThreeLabel.text = selectedAlerts[2];
+	}
 }
 
 NSTimer *syncTimer;
@@ -144,8 +179,18 @@ NSTimer *syncTimer;
     if (length == 2) {
         NSInteger level = data[0];
         enum directions_t direction = data[1];
-        [JMAlert soundLevelAlert:level doEnable:true];
-        [JMAlert vibLevelAlert:level doEnable:true];
+		
+		if (level == 1) {
+			NSInteger alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertOneLabel.text]] integerValue];
+			[JMAlert soundLevelAlert:level doEnable:true soundID:alertSoundID];
+		}else if(level == 2){
+			NSInteger alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertTwoLabel.text]] integerValue];
+			[JMAlert soundLevelAlert:level doEnable:true soundID:alertSoundID];
+		}else if(level == 3){
+			NSInteger alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertThreeLabel.text]] integerValue];
+			[JMAlert soundLevelAlert:level doEnable:true soundID:alertSoundID];
+		}
+
         NSLog(@"Recieved %ldm alert from hardware with direction %ld", (long)level, (long)direction);
     }
 }
@@ -156,14 +201,26 @@ NSTimer *syncTimer;
     return 1;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    uint8_t pin = indexPath.row;
-    
-    if (pin_cap[pin] == PIN_CAPABILITY_NONE)
-        return 0;
-    
-    return 60;
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	 
+	 NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+	 lastSelectedAlert = indexPath.row;
+	 
+	 JMSoundsTableViewController *soundPage = segue.destinationViewController;
+	 
+	 soundPage.title = [NSString stringWithFormat:@"Alert %d Sounds", lastSelectedAlert+1];
+	 
+	 soundPage.selectedSound = selectedAlerts[lastSelectedAlert];
+	 
+	 [soundPage setDelegate:self];
+	 
+ }
+
+#pragma mark - Protocol Method
+
+-(void)setAlertSoundName: (NSString*)alertName{
+	alertToneString = alertName;
 }
 
 @end
