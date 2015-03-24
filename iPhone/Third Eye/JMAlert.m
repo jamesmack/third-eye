@@ -14,9 +14,7 @@
 + (void)soundLevelAlert: (NSInteger) level
               doEnable: (BOOL) enable
 			  soundID: (NSInteger) soundNumber{
-    if (level == 1)
-        //AudioServicesPlaySystemSound (1005);
-		AudioServicesPlaySystemSound (soundNumber);
+	AudioServicesPlayAlertSound ((unsigned int) soundNumber);
 }
 
 + (void)vibLevelAlert: (NSInteger) level

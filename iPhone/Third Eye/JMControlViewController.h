@@ -25,15 +25,15 @@ enum directions_t {TOWARDS = 1, AWAY = 2, NOT_MOVING = 3, UNDETERMINED = 4};
 
 @property (nonatomic, strong)NSString *alertToneString;
 
-@property (strong, nonatomic) IBOutlet UILabel *alertToneLabel;
+@property (strong, nonatomic) IBOutlet UILabel *alertOneLabel;
+
+@property (strong, nonatomic) IBOutlet UILabel *alertTwoLabel;
+
+@property (strong, nonatomic) IBOutlet UILabel *alertThreeLabel;
 
 @property (strong, nonatomic) BLE *ble;
 @property (strong, nonatomic) RBLProtocol *protocol;
 
 -(void) processData:(uint8_t *) data length:(uint8_t) length;
-
-- (IBAction)vibrateSwitch:(id)sender;
-
-- (IBAction)testButton:(id)sender;
 
 @end
