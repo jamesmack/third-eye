@@ -53,6 +53,11 @@ void sendAlertLevel(int distance) {
   const int str_len = 1;
   uint8_t str[str_len + 1];  // Data plus null
 
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.print("; Speed: ");
+  Serial.println(speed_diff_kph);
+
   // Check distance first, then speed
   if (distance <= DIST_CLOSE && distance > DIST_VCLOSE)
   {
@@ -68,7 +73,7 @@ void sendAlertLevel(int distance) {
     {
       str[0] = ALERT_1;
     }
-    else str[0] = ALERT_4; 
+    else str[0] = ALERT_4;
   }
   else if (distance <= DIST_VCLOSE && distance > DIST_VVCLOSE)
   {
@@ -84,6 +89,7 @@ void sendAlertLevel(int distance) {
     {
       str[0] = ALERT_1;
     }
+    else str[0] = ALERT_4;
   }
   else if (distance <= DIST_VVCLOSE)
   {
@@ -99,12 +105,13 @@ void sendAlertLevel(int distance) {
     {
       str[0] = ALERT_1;
     }
+    else str[0] = ALERT_4;
   }
   else
   {
     str[0] = ALERT_5;
   }
-  sendCustomData(str, str_len); 
+  sendCustomData(str, str_len);
 }
 
 void readSensor() {

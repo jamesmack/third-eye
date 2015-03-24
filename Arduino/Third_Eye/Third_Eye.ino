@@ -96,7 +96,7 @@ void sendAlertLevel(int distance) {
     {
       str[0] = ALERT_1;
     }
-    else str[0] = ALERT_4; 
+    else str[0] = ALERT_4;
   }
   else if (distance <= DIST_VCLOSE && distance > DIST_VVCLOSE)
   {
@@ -112,6 +112,7 @@ void sendAlertLevel(int distance) {
     {
       str[0] = ALERT_1;
     }
+    else str[0] = ALERT_4;
   }
   else if (distance <= DIST_VVCLOSE)
   {
@@ -127,12 +128,13 @@ void sendAlertLevel(int distance) {
     {
       str[0] = ALERT_1;
     }
+    else str[0] = ALERT_4;
   }
   else
   {
     str[0] = ALERT_5;
   }
-  sendCustomData(str, str_len); 
+  sendCustomData(str, str_len);
 }
 
 void readSensor() {

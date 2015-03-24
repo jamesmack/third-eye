@@ -178,7 +178,6 @@ NSTimer *syncTimer;
 {
     if (length == 1) {
         NSInteger level = data[0];
-        enum directions_t direction = data[1];
 
         if (level == 1) {
             NSInteger alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertOneLabel.text]] integerValue];
@@ -191,7 +190,7 @@ NSTimer *syncTimer;
             [JMAlert soundLevelAlert:level doEnable:true soundID:alertSoundID];
         }
 
-        NSLog(@"Recieved %ldm alert from hardware with direction %ld", (long)level, (long)direction);
+        NSLog(@"Recieved alert %ld from hardware", (long)level);
     }
 }
 
