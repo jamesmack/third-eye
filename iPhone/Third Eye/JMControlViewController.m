@@ -1,14 +1,14 @@
 
 /*
-
+ 
  Copyright (c) 2015 James Mackenzie
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+ 
  */
 
 #import "JMControlViewController.h"
@@ -41,14 +41,14 @@ uint8_t init_done = 0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+	// Do any additional setup after loading the view, typically from a nib.
 
     self.navigationItem.hidesBackButton = YES;
 
     protocol = [[RBLProtocol alloc] init];
     protocol.delegate = self;
     protocol.ble = ble;
-
+    
     NSLog(@"ControlView: viewDidLoad");
 }
 
@@ -57,14 +57,14 @@ NSTimer *syncTimer;
 -(void) syncTimeout:(NSTimer *)timer
 {
     NSLog(@"Timeout: no response");
-
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                     message:@"Communication could not be established with Third Eye."
                                                    delegate:nil
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
     [alert show];
-
+    
     // disconnect it
     [ble.CM cancelPeripheralConnection:ble.activePeripheral];
 }
@@ -72,7 +72,7 @@ NSTimer *syncTimer;
 -(void)viewDidAppear:(BOOL)animated
 {
     NSLog(@"ControlView: viewDidAppear");
-
+    
     syncTimer = [NSTimer scheduledTimerWithTimeInterval:(float)3.0 target:self selector:@selector(syncTimeout:) userInfo:nil repeats:NO];
 
     [protocol queryProtocolVersion];
@@ -84,7 +84,7 @@ NSTimer *syncTimer;
 
     total_pin_count = 0;
     [tv reloadData];
-
+    
     init_done = 0;
 }
 
@@ -97,7 +97,7 @@ NSTimer *syncTimer;
 - (IBAction)btnStopClicked:(id)sender
 {
     NSLog(@"Button Stop Clicked");
-
+    
     [[ble CM] cancelPeripheralConnection:[ble activePeripheral]];
 }
 
@@ -107,14 +107,14 @@ NSTimer *syncTimer;
     NSLog(@"ControlView: processData");
     NSLog(@"Length: %d", length);
 #endif
-
+    
     [protocol parseData:data length:length];
 }
 
 -(void) protocolDidReceiveProtocolVersion:(uint8_t)major Minor:(uint8_t)minor Bugfix:(uint8_t)bugfix
 {
     NSLog(@"protocolDidReceiveProtocolVersion: %d.%d.%d", major, minor, bugfix);
-
+    
     // get response, so stop timer
     [syncTimer invalidate];
 }
@@ -141,12 +141,11 @@ NSTimer *syncTimer;
 
 -(void) protocolDidReceiveCustomData:(uint8_t *)data length:(uint8_t)length
 {
-    if (length == 2) {
+    if (length == 1) {
         NSInteger level = data[0];
-        enum directions_t direction = data[1];
         [JMAlert soundLevelAlert:level doEnable:true];
         [JMAlert vibLevelAlert:level doEnable:true];
-        NSLog(@"Recieved %ldm alert from hardware with direction %ld", (long)level, (long)direction);
+        NSLog(@"Recieved %ldm alert from hardware", (long)level);
     }
 }
 
@@ -159,10 +158,10 @@ NSTimer *syncTimer;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     uint8_t pin = indexPath.row;
-
+    
     if (pin_cap[pin] == PIN_CAPABILITY_NONE)
         return 0;
-
+    
     return 60;
 }
 
