@@ -10,11 +10,17 @@
 
 @interface JMAlert : NSObject
 
-+ (void)soundLevelAlert: (NSInteger) level
-              doEnable: (BOOL) enable
-				soundID: (NSInteger) soundNumber;
+- (void)soundLevelAlert: (NSInteger) level
+               doEnable: (BOOL) enable
+                soundID: (NSInteger) soundNumber;
 
-+ (void)vibLevelAlert: (NSInteger) level
-            doEnable: (BOOL) enable;
+- (void)vibLevelAlert: (NSInteger) level
+             doEnable: (BOOL) enable;
+
+- (void)lowerAudioLevel: (NSInteger) byPercent;
+
+- (void)restoreAudioLevel;
+
+- (BOOL)isSoundLowered;
 
 @end

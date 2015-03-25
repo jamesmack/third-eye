@@ -79,7 +79,7 @@
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-	int index = indexPath.row;
+	long index = indexPath.row;
 	
 	currentSelectedCell.accessoryType = UITableViewCellAccessoryNone;
 	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];

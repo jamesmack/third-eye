@@ -25,7 +25,6 @@ uint8_t pin_pwm[128]     = {0};
 uint8_t pin_servo[128]   = {0};
 
 uint8_t init_done = 0;
-
 NSInteger lastSelectedAlert=0;
 
 @interface JMControlViewController ()
@@ -36,6 +35,7 @@ NSInteger lastSelectedAlert=0;
     NSArray *sounds;
     NSMutableArray *selectedAlerts;
     NSArray *alertSoundIDs;
+    JMAlert *userAlerts;
 }
 @synthesize ble;
 @synthesize protocol;
@@ -52,6 +52,7 @@ NSInteger lastSelectedAlert=0;
     // Do any additional setup after loading the view, typically from a nib.
 
     selectedAlerts = [NSMutableArray arrayWithObjects:@"Tara",@"Tock",@"Short-Low-High", nil];
+    userAlerts = [[JMAlert alloc] init];
 
     /* Sound IDs */
     sounds = [NSArray arrayWithObjects:@"Tara",@"Tink - Key",@"Tink - Pin",@"Tock",@"Touch",@"Short-Low-High", nil];
@@ -177,20 +178,45 @@ NSTimer *syncTimer;
 -(void) protocolDidReceiveCustomData:(uint8_t *)data length:(uint8_t)length
 {
     if (length == 1) {
-        NSInteger level = data[0];
+        enum alert_t level = data[0];
+        NSInteger alertSoundID;
 
-        if (level == 1) {
-            NSInteger alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertOneLabel.text]] integerValue];
-            [JMAlert soundLevelAlert:level doEnable:true soundID:alertSoundID];
-        }else if(level == 2){
-            NSInteger alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertTwoLabel.text]] integerValue];
-            [JMAlert soundLevelAlert:level doEnable:true soundID:alertSoundID];
-        }else if(level == 3){
-            NSInteger alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertThreeLabel.text]] integerValue];
-            [JMAlert soundLevelAlert:level doEnable:true soundID:alertSoundID];
+        switch (level)
+        {
+            case ALERT_1:
+                alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertOneLabel.text]] integerValue];
+                [userAlerts restoreAudioLevel];
+                [userAlerts soundLevelAlert:level doEnable:true soundID:alertSoundID];
+                break;
+
+            case ALERT_2:
+                alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertTwoLabel.text]] integerValue];
+                [userAlerts restoreAudioLevel];
+                [userAlerts soundLevelAlert:level doEnable:true soundID:alertSoundID];
+                break;
+
+            case ALERT_3:
+                alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertThreeLabel.text]] integerValue];
+                [userAlerts restoreAudioLevel];
+                [userAlerts soundLevelAlert:level doEnable:true soundID:alertSoundID];
+                break;
+
+            case ALERT_4:
+                if ([userAlerts isSoundLowered] == NO) {
+                    [userAlerts lowerAudioLevel:30];
+                }
+                break;
+
+            case ALERT_5:
+                if ([userAlerts isSoundLowered] == YES) {
+                    [userAlerts restoreAudioLevel];
+                }
+                break;
+
+            default:
+                NSLog(@"Unknown alert %ld from hardware", (long)level);
+                break;
         }
-
-        NSLog(@"Recieved alert %ld from hardware", (long)level);
     }
 }
 
@@ -208,7 +234,7 @@ NSTimer *syncTimer;
 
     JMSoundsTableViewController *soundPage = segue.destinationViewController;
 
-    soundPage.title = [NSString stringWithFormat:@"Alert %d Sounds", lastSelectedAlert+1];
+    soundPage.title = [NSString stringWithFormat:@"Alert %ld Sounds", (long)lastSelectedAlert+1];
 
     soundPage.selectedSound = selectedAlerts[lastSelectedAlert];
     
