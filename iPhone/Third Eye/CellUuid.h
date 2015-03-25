@@ -14,9 +14,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CellUuid : UITableViewCell {
-    IBOutlet UILabel *lblUuid;
-    IBOutlet UILabel *lblRssi;
-    IBOutlet UILabel *lblName;
+    IBOutlet UILabel *_lblUuid;
+    IBOutlet UILabel *_lblRssi;
+    IBOutlet UILabel *_lblName;
 }
 
 @property (strong, nonatomic) UILabel *lblUuid;
