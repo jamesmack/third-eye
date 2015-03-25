@@ -184,33 +184,29 @@ NSTimer *syncTimer;
         switch (level)
         {
             case ALERT_1:
+                if ([userAlerts isSoundLowered] == YES) [userAlerts restoreAudioLevel];
                 alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertOneLabel.text]] integerValue];
-                [userAlerts restoreAudioLevel];
                 [userAlerts soundLevelAlert:level doEnable:true soundID:alertSoundID];
                 break;
 
             case ALERT_2:
+                if ([userAlerts isSoundLowered] == YES) [userAlerts restoreAudioLevel];
                 alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertTwoLabel.text]] integerValue];
-                [userAlerts restoreAudioLevel];
                 [userAlerts soundLevelAlert:level doEnable:true soundID:alertSoundID];
                 break;
 
             case ALERT_3:
+                if ([userAlerts isSoundLowered] == YES) [userAlerts restoreAudioLevel];
                 alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertThreeLabel.text]] integerValue];
-                [userAlerts restoreAudioLevel];
                 [userAlerts soundLevelAlert:level doEnable:true soundID:alertSoundID];
                 break;
 
             case ALERT_4:
-                if ([userAlerts isSoundLowered] == NO) {
-                    [userAlerts lowerAudioLevel:30];
-                }
+                if ([userAlerts isSoundLowered] == NO) [userAlerts lowerAudioLevel:30];
                 break;
 
             case ALERT_5:
-                if ([userAlerts isSoundLowered] == YES) {
-                    [userAlerts restoreAudioLevel];
-                }
+                if ([userAlerts isSoundLowered] == YES) [userAlerts restoreAudioLevel];
                 break;
 
             default:
