@@ -11,7 +11,7 @@
 @import MediaPlayer;
 
 @implementation JMAlert {
-    float _prevAudioLevel;
+    CGFloat _prevAudioLevel;
     BOOL _isSoundLowered;
     MPMusicPlayerController *_musicPlayer;
 }
