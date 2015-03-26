@@ -24,13 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	sounds = [NSArray arrayWithObjects:@"Tara",@"Tink - Key",@"Tink - Pin",@"Tock",@"Touch",@"Short-Low-High", nil];
+	sounds = [NSArray arrayWithObjects:@"Tara",@"Tink - Key",@"Tink - Pin",@"Tock",@"Touch",@"Short-Low-High", @"None", nil];
 	
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -98,8 +93,6 @@
 	}else if (index == 5){
 		AudioServicesPlaySystemSound (1256); // Short-Low-High
 	 }
-	
-
 }
 
 /*

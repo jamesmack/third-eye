@@ -32,6 +32,8 @@ enum alert_t {ALERT_UNKNOWN = 0, ALERT_1 = 1, ALERT_2 = 2, ALERT_3 = 3, ALERT_4 
 
 @property (strong, nonatomic) IBOutlet UILabel *alertThreeLabel;
 
+@property (strong, nonatomic) IBOutlet UISwitch *alertFourSwitch;
+
 @property (strong, nonatomic) BLE *ble;
 @property (strong, nonatomic) RBLProtocol *protocol;
 

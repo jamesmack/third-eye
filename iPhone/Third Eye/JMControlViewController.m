@@ -15,6 +15,7 @@
 #import "JMSoundsTableViewController.h"
 #import "CellPin.h"
 #import "JMAlert.h"
+@import UIKit;
 
 uint8_t total_pin_count  = 0;
 uint8_t pin_mode[128]    = {0};
@@ -26,6 +27,7 @@ uint8_t pin_servo[128]   = {0};
 
 uint8_t init_done = 0;
 NSInteger lastSelectedAlert=0;
+NSString *alertNone = @"None";
 
 @interface JMControlViewController ()
 
@@ -40,6 +42,7 @@ NSInteger lastSelectedAlert=0;
 @synthesize ble;
 @synthesize protocol;
 @synthesize alertToneString;
+@synthesize alertFourSwitch;
 
 - (void)awakeFromNib
 {
@@ -55,7 +58,7 @@ NSInteger lastSelectedAlert=0;
     userAlerts = [[JMAlert alloc] init];
 
     /* Sound IDs */
-    sounds = [NSArray arrayWithObjects:@"Tara",@"Tink - Key",@"Tink - Pin",@"Tock",@"Touch",@"Short-Low-High", nil];
+    sounds = [NSArray arrayWithObjects:@"Tara",@"Tink - Key",@"Tink - Pin",@"Tock",@"Touch",@"Short-Low-High", @"None", nil];
     NSNumber *Tara = [NSNumber numberWithInt:1111];
     NSNumber *TinkK = [NSNumber numberWithInt:1103];
     NSNumber *TinkP = [NSNumber numberWithInt:1057];
@@ -185,24 +188,32 @@ NSTimer *syncTimer;
         {
             case ALERT_1:
                 if ([userAlerts isSoundLowered] == YES) [userAlerts restoreAudioLevel];
-                alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertOneLabel.text]] integerValue];
-                [userAlerts soundLevelAlert:level doEnable:true soundID:alertSoundID];
+				if (_alertOneLabel.text != alertNone){
+					alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertOneLabel.text]] integerValue];
+					[userAlerts soundLevelAlert:level doEnable:true soundID:alertSoundID];
+				}
                 break;
 
             case ALERT_2:
                 if ([userAlerts isSoundLowered] == YES) [userAlerts restoreAudioLevel];
-                alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertTwoLabel.text]] integerValue];
-                [userAlerts soundLevelAlert:level doEnable:true soundID:alertSoundID];
+				if (_alertTwoLabel.text != alertNone) {
+					alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertTwoLabel.text]] integerValue];
+					[userAlerts soundLevelAlert:level doEnable:true soundID:alertSoundID];
+				}
                 break;
 
             case ALERT_3:
                 if ([userAlerts isSoundLowered] == YES) [userAlerts restoreAudioLevel];
-                alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertThreeLabel.text]] integerValue];
-                [userAlerts soundLevelAlert:level doEnable:true soundID:alertSoundID];
+				if (_alertThreeLabel.text != alertNone) {
+					alertSoundID = [[alertSoundIDs objectAtIndex:[sounds indexOfObject:_alertThreeLabel.text]] integerValue];
+					[userAlerts soundLevelAlert:level doEnable:true soundID:alertSoundID];
+				}
                 break;
 
             case ALERT_4:
-                if ([userAlerts isSoundLowered] == NO) [userAlerts lowerAudioLevel:30];
+				if (alertFourSwitch.on) {
+					if ([userAlerts isSoundLowered] == NO) [userAlerts lowerAudioLevel:30];
+				}
                 break;
 
             case ALERT_5:
