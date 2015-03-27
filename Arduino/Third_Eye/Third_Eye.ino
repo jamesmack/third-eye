@@ -31,12 +31,15 @@ const int DIST_VCLOSE = 98; // ceil(2.5 m * 39.37 in/m)
 const int DIST_CLOSE = 138; // ceil(3.5 m * 39.37 in/m)
 const int SENSOR_PIN = 9;
 const int READ_INTERVAL = 75;  // in ms, can't be less than 50 ms due to sensor limitation
+const unsigned int LOOP_FOR_ALERT = 8;  // Number of times to send level 1, 2, 3 alert, corresponds to 3 seconds
 
 // Global variables
 SimpleTimer timer;
 int sensor_distance, sensor_raw;
 int read_cnt = 0;
 Trends distance_hist(5, 5);
+alert_t last_alert = ALERT_UNKNOWN;
+unsigned int current_alert_loop = LOOP_FOR_ALERT;
 
 void setup()
 {
@@ -59,9 +62,6 @@ void setup()
 int getMovingDirection() {
   float slope = distance_hist.getSlopeOfAverage();
 
-  Serial.print("Slope: ");  // DEBUG ONLY?
-  Serial.println(slope);
-
   if (slope < 0.3 && slope > -0.3) return NOT_MOVING;
   else if (slope >= 0.3) return AWAY;
   else if (slope <= -0.3) return TOWARDS;
@@ -73,74 +73,98 @@ int getMovingDirection() {
 }
 
 void sendAlertLevel(int distance) {
-  float slope = distance_hist.getSlopeOfAverage();
-  // (1 inch/(375 milliseconds) = 0.24384 kilometers/hour) * -1
-  // Multiplied by -1 so that positive is moving towards and negative is moving away
-  float speed_diff_kph = slope * -0.24384;
-  alert_t level = ALERT_UNKNOWN;
-  const int str_len = 1;
-  uint8_t str[str_len + 1];  // Data plus null
+  float speed_diff_kph;
+  alert_t current_alert = ALERT_UNKNOWN;
+  uint8_t str[2];  // One byte for data, one for null
+
+  if (distance <= DIST_CLOSE)
+  {
+    // (1 inch/(375 milliseconds) = 0.24384 kilometers/hour) * -1
+    // Multiplied by -1 so that positive is moving towards and negative is moving away
+    speed_diff_kph = distance_hist.getSlopeOfAverage() * -0.24384;
+  }
+  else speed_diff_kph = 0;
 
   // Check distance first, then speed
   if (distance <= DIST_CLOSE && distance > DIST_VCLOSE)
   {
     if (speed_diff_kph <= 5.4 && speed_diff_kph > 3.6)
     {
-      str[0] = ALERT_3;
+      current_alert = ALERT_3;
     }
     else if (speed_diff_kph <= 10.8 && speed_diff_kph > 5.4)
     {
-      str[0] = ALERT_2;
+      current_alert = ALERT_2;
     }
     else if (speed_diff_kph > 10.8)
     {
-      str[0] = ALERT_1;
+      current_alert = ALERT_1;
     }
-    else str[0] = ALERT_4;
+    else current_alert = ALERT_4;
   }
   else if (distance <= DIST_VCLOSE && distance > DIST_VVCLOSE)
   {
     if (speed_diff_kph <= 3.6 && speed_diff_kph > 2.4)
     {
-      str[0] = ALERT_3;
+      current_alert = ALERT_3;
     }
     else if (speed_diff_kph <= 7.2 && speed_diff_kph > 3.6)
     {
-      str[0] = ALERT_2;
+      current_alert = ALERT_2;
     }
     else if (speed_diff_kph > 7.2)
     {
-      str[0] = ALERT_1;
+      current_alert = ALERT_1;
     }
-    else str[0] = ALERT_4;
+    else current_alert = ALERT_4;
   }
   else if (distance <= DIST_VVCLOSE)
   {
     if (speed_diff_kph <= 1.8 && speed_diff_kph > 1.2)
     {
-      str[0] = ALERT_3;
+      current_alert = ALERT_3;
     }
     else if (speed_diff_kph <= 3.6 && speed_diff_kph > 1.8)
     {
-      str[0] = ALERT_2;
+      current_alert = ALERT_2;
     }
     else if (speed_diff_kph > 3.6)
     {
-      str[0] = ALERT_1;
+      current_alert = ALERT_1;
     }
-    else str[0] = ALERT_4;
+    else current_alert = ALERT_4;
   }
   else
   {
-    str[0] = ALERT_5;
+    current_alert = ALERT_5;
   }
-  sendCustomData(str, str_len);
+
+  // If last alert unknown
+  if (last_alert == ALERT_UNKNOWN) last_alert = current_alert;
+
+  // If last alert less important or same importance, restart loop with new alert
+  if ((last_alert >= current_alert) && (current_alert < ALERT_4))
+  {
+    current_alert_loop = LOOP_FOR_ALERT;
+    last_alert = current_alert;
+  }
+  // If last alert more important than current alert, continue loop
+  else if ((last_alert < current_alert) && (current_alert_loop > 0) && (last_alert < ALERT_4))
+  {
+    current_alert_loop--;
+    current_alert = last_alert;
+  }
+  else last_alert = current_alert;
+
+  str[0] = current_alert;
+  sendCustomData(str, 2);
 }
 
 void readSensor() {
   if (!ble_connected()) return;
   sensor_raw = pulseIn(SENSOR_PIN, HIGH);
   sensor_distance = sensor_raw/147;
+  sensor_distance = abs(sensor_distance);
   if (sensor_distance != 246) {
     distance_hist.addValue(sensor_distance);
     
