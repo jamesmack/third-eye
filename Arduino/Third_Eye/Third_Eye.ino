@@ -31,7 +31,7 @@ const int DIST_VCLOSE = 98; // ceil(2.5 m * 39.37 in/m)
 const int DIST_CLOSE = 138; // ceil(3.5 m * 39.37 in/m)
 const int SENSOR_PIN = 9;
 const int READ_INTERVAL = 75;  // in ms, can't be less than 50 ms due to sensor limitation
-const unsigned int LOOP_FOR_ALERT = 8;  // Number of times to send level 1, 2, 3 alert, corresponds to 3 seconds
+const unsigned int LOOP_FOR_ALERT = 3;  // Number of times to send level 1, 2, 3 alert, corresponds to 3 seconds
 
 // Global variables
 SimpleTimer timer;
@@ -157,7 +157,7 @@ void sendAlertLevel(int distance) {
   else last_alert = current_alert;
 
   str[0] = current_alert;
-  sendCustomData(str, 2);
+  sendCustomData(str, 1);
 }
 
 void readSensor() {
@@ -221,7 +221,7 @@ void loop()
   {
     byte cmd;
     cmd = ble_read();
-//    Serial.write(cmd);
+   // Serial.write(cmd);
     
     // Do a sensor check
     timer.run();

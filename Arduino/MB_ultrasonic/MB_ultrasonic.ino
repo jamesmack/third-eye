@@ -8,7 +8,7 @@ const int DIST_VVCLOSE = 60; // ceil(1.5 m * 39.37 in/m)
 const int DIST_VCLOSE = 98; // ceil(2.5 m * 39.37 in/m)
 const int DIST_CLOSE = 138; // ceil(3.5 m * 39.37 in/m)
 const unsigned int SENSOR_PIN = 9;
-const unsigned int LOOP_FOR_ALERT = 8;  // Number of times to send level 1, 2, 3 alert, corresponds to 3 seconds
+const unsigned int LOOP_FOR_ALERT = 3;  // Number of times to send level 1, 2, 3 alert, corresponds to 3 seconds
 
 SimpleTimer timer;
 int sensor_distance, sensor_raw;
@@ -56,6 +56,11 @@ void sendAlertLevel(int distance) {
     speed_diff_kph = distance_hist.getSlopeOfAverage() * -0.24384;
   }
   else speed_diff_kph = 0;
+
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.print("; Speed: ");
+  Serial.println(speed_diff_kph);
 
   // Check distance first, then speed
   if (distance <= DIST_CLOSE && distance > DIST_VCLOSE)
@@ -129,7 +134,7 @@ void sendAlertLevel(int distance) {
   else last_alert = current_alert;
 
   str[0] = current_alert;
-  sendCustomData(str, 2);
+  sendCustomData(str, 1);
 }
 
 void readSensor() {
